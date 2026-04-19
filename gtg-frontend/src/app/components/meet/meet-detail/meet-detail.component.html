@@ -1,0 +1,164 @@
+<div class="meet-detail-component">
+
+  <div class="meet-header-bar-container">
+
+    <div class="meet-header-bar">
+      <div class="back-button">
+
+        <button type="button" mat-icon-button (click)="navigateBack()">
+          <mat-icon fontIcon="chevron_left"></mat-icon>
+        </button>
+      </div>
+
+
+      <div class="current-meet-user-info">
+        <p> current user: {{ currentMeetUser()?.name }}</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="meet-name-input">
+    <form>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput [formControl]="meetingName">
+      </mat-form-field>
+      <button type="button" mat-icon-button (click)="updateMeetingName()">
+        <mat-icon fontIcon="save"></mat-icon>
+      </button>
+    </form>
+  </div>
+
+  <!--  Todo: Remove - only here for testing purposes-->
+  <div class="meet-detail-info">
+    <p>{{ meetingGroup()?.name }}</p>
+
+  </div>
+
+  <div class="date-picker-container">
+
+    <!--    <div class="date-picker-card">-->
+    <!--      <mat-form-field>-->
+    <!--        <mat-datepicker #picker></mat-datepicker>-->
+    <!--        <mat-label>Choose a date</mat-label>-->
+    <!--        <input matInput [matDatepicker]="picker" [formControl]="chosenDate">-->
+    <!--        <mat-hint>DD.MM.YYYY</mat-hint>-->
+    <!--        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
+    <!--      </mat-form-field>-->
+
+    <!--      <button mat-raised-button (click)="setDate()">set date</button>-->
+    <!--    </div>-->
+
+    <!--  Todo: create filter to disable already chosen Dates-->
+
+    <div class="date-picker-card">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="rangePicker">
+          <input matInput matStartDate formControlName="start" placeholder="Start date">
+          <input matInput matEndDate formControlName="end" placeholder="End date">
+        </mat-date-range-input>
+        <mat-hint>DD.MM.YYYY – DD.MM.YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi="{{screenSizeS}}" #rangePicker></mat-date-range-picker>
+
+        @if (range.controls.start.hasError('matStartDateInvalid')) {
+          <mat-error>Invalid start date</mat-error>
+        }
+        @if (range.controls.end.hasError('matEndDateInvalid')) {
+          <mat-error>Invalid end date</mat-error>
+        }
+      </mat-form-field>
+      <button mat-raised-button (click)="setDateRange()">set date range</button>
+    </div>
+  </div>
+
+  @if (selectedDate()) {
+    <div class="selected-date-info">
+      Selected Date: {{ selectedDate()?.date  | date: 'EEEE, dd.MM' }}
+    </div>
+  }
+
+
+  <!--  Todo: maybe outsource this (maybe with date pickers?)-->
+  <div class="date-expansion-panel">
+    <mat-expansion-panel class="date-expansion-panel"
+                         [expanded]="dateSuggestionPanelOpenState()"
+                         (opened)="dateSuggestionPanelOpenState.set(true)"
+                         (closed)="dateSuggestionPanelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Date Suggestions</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="meet-date-container">
+
+        @for (entry of viewDateVotes(); track entry.date.id) {
+
+          <!--          @if (screenSizeS) {-->
+          <div class="meet-date-card" [class.selected-date]="entry.date.isChosenDate">
+            <div class="card-row">
+
+              <div class="date-card-left-column row-item">
+                <div class="date-card-date-tile">
+                  {{ entry.date.date | date: 'EEEE, dd.MM' }}
+                </div>
+                <div class="date-card-button-column">
+                  <div class="vote-button-container">
+                    <button class="date-vote-btn"
+                            mat-raised-button
+                            (click)="AddVoteForUser(setVoteEnum(voteItemTypeEnum.Date), entry.date.id)">
+                      vote
+                    </button>
+                  </div>
+                  <div class="vote-button-container">
+                    <button class="date-vote-btn"
+                            mat-raised-button
+                            (click)="selectDate(entry.date)">
+                      select
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="date-card-vote-column row-item">
+                <div class="vote-column-title">
+                  votes:
+                </div>
+                <div class="vote-column-list"></div>
+                @for (vote of entry.votes; track vote.id) {
+                  <div>
+                    {{ vote.meetUser.name }}
+                  </div>
+                }
+              </div>
+
+            </div>
+          </div>
+        }
+      </div>
+    </mat-expansion-panel>
+  </div>
+
+  <div>
+    <h3>Available games for group</h3>
+    @for (entry of viewGameVotes(); track entry.game.id) {
+      <div class="basic-item-row" (click)="AddVoteForUser(setVoteEnum(voteItemTypeEnum.Game), entry.game.id)">
+
+        <div class="basic-item-column">
+          {{ entry.game.name }}
+        </div>
+        <div class="basic-item-column">
+          <div>
+            @for (vote of entry.votes; track vote.id) {
+              <div>
+                {{ vote.meetUser.name }}
+              </div>
+            }
+          </div>
+        </div>
+
+      </div>
+    }
+  </div>
+</div>

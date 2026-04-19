@@ -1,0 +1,21 @@
+@use "../../../../theme.scss" as theme;
+
+
+.list-body {
+  margin: 20px;
+}
+
+//.selected-item {
+//  text-decoration: underline;
+//}
+
+.lookup-list-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 16px;
+
+
+  list-column{
+  }
+}

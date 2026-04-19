@@ -1,0 +1,94 @@
+# ==========================================
+# 1. SECRETS & DOCKER (CRITICAL)
+# ==========================================
+.env
+.env.*
+!.env.example
+docker-compose.override.yml
+
+# ==========================================
+# 2. BACKEND (.NET / C#)
+# ==========================================
+# Build results
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+
+# Catch-all compiled binaries & debug symbols
+*.dll
+*.exe
+*.pdb
+
+# Testing
+TestResults/
+
+# NuGet Packages
+*.nupkg
+packages/
+
+
+# Local Databases (Entity Framework / SQL)
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+*.ndf
+
+# Visual Studio / Rider folders
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Local development configuration (if you put secrets here)
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Local.json
+
+# ==========================================
+# 3. FRONTEND (ANGULAR / NODE.JS)
+# ==========================================
+# Dependencies
+node_modules/
+
+# Angular build outputs and cache
+dist/
+.angular/
+tmp/
+out-tsc/
+bazel-out/
+
+# Testing outputs
+coverage/
+
+# npm and yarn logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+
+# ==========================================
+# 4. IDEs & EDITORS
+# ==========================================
+.vscode/
+*.swp
+*.swo
+
+# ==========================================
+# 5. OS-GENERATED FILES
+# ==========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+.Spotlight-V100

@@ -1,0 +1,67 @@
+@use "../../../theme.scss" as theme;
+
+
+.dashboard-component {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+}
+
+
+.dashboard-list-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid teal;
+  min-width: 300px;
+  border-radius: 12px;
+  margin: 4px;
+
+  .list-title {
+    margin-left: 20px;
+    margin-top: 20px;
+
+    text-decoration: underline;
+  }
+
+  .list-selection-title {
+    display: flex;
+    justify-content: space-between;
+    text-decoration: underline;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+
+    .list-selection{
+      margin-left: 20px;
+    }
+  }
+
+  button {
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+mat-card {
+  display: flex;
+  min-width: 310px;
+  width: fit-content;
+  border: 1px solid teal;
+  margin: 4px;
+}
+
+//div{
+//  border: 1px solid green;
+//}
+
+//mat-grid-list{
+//  border: 1px solid red;
+//}
+
+
+@media(min-width: 768px) {
+  .dashboard-component {
+    flex-direction: row;
+    font-size: 1.2rem;
+  }
+}

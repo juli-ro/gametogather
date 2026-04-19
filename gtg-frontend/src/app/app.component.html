@@ -1,0 +1,50 @@
+<mat-sidenav-container class="site-container">
+  <mat-sidenav #drawer [mode]="mode" [opened]="mode === 'side'" class="site-sidenav">
+    <mat-nav-list>
+      <mat-list-item (click)="drawer.toggle()">
+        <mat-icon aria-label="close-button" fontIcon="close"/>
+      </mat-list-item>
+      @if (isAuthenticated()) {
+
+        <mat-list-item routerLink="/login">Login</mat-list-item>
+        <mat-list-item routerLinkActive routerLink="/user-dashboard">Dashboard</mat-list-item>
+        <mat-list-item routerLink="/game">My Games</mat-list-item>
+        <mat-list-item routerLink="/groupGames">Group Games</mat-list-item>
+        <mat-list-item routerLink="/group">Groups</mat-list-item>
+        @if (isAdmin()) {
+
+          <mat-list-item routerLink="/user-list">Users</mat-list-item>
+        }
+        <mat-list-item routerLink="/user-settings">Settings</mat-list-item>
+      }
+      <mat-list-item (click)="logout()">Logout</mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <app-hamburger [initialState]="false" [closed]="drawer.closedStart" (trigger)="drawer.toggle();"/>
+      <span class="nav-icon">GTG</span>
+      <div class="header-toolbar">
+        <mat-toolbar>
+          @if (isAuthenticated()) {
+            <a mat-button routerLink="/login">Login</a>
+            <a mat-button routerLink="/user-dashboard">Dashboard</a>
+            <a mat-button routerLink="/game">My Games</a>
+            <a mat-button routerLink="/groupGames">Group Games</a>
+            <a mat-button routerLink="/group">Groups</a>
+            @if (isAdmin()) {
+              <a mat-button routerLink="/user-list">Users</a>
+            }
+            <a mat-button routerLink="/user-settings">Settings</a>
+          }
+          <span class="flexExpand"></span>
+          <button mat-button class="logout-button" (click)="logout()">Logout</button>
+        </mat-toolbar>
+      </div>
+    </mat-toolbar>
+    <div class="site-content">
+      <router-outlet/>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

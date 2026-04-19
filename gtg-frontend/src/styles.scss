@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+// https://material.angular.io/guide/theming#the-core-mixin
+@forward "theme.scss";
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.basic-list-header-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  div{
+    display: flex;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+.basic-item-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border: solid 1px teal;
+  border-radius: 8px;
+  margin: 8px;
+
+  .basic-item-column{
+    display: flex;
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .edit-button-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    button{
+      Margin: 8px;
+    }
+  }
+}
+
+
+.container{
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .container{
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container{
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}

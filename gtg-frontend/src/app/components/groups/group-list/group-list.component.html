@@ -1,0 +1,34 @@
+<div class="group-list-component">
+  <div class="basic-list-header-bar">
+      <div>
+        Name
+      </div>
+      <div>
+        Options
+      </div>
+  </div>
+</div>
+<hr>
+@for (group of groupList(); track group.id) {
+  <div>
+    <div class="basic-item-row">
+      <div class="basic-item-column">
+        {{ group.name }}
+      </div>
+      <div class="basic-item-column">
+        <div class="edit-button-column">
+
+        <button mat-mini-fab (click)="editGroup(group.id)">
+          <mat-icon aria-label="edit-button" fontIcon="edit"/>
+        </button>
+        <button class="group-delete-button" mat-mini-fab (click)="deleteGroup(group.id)">
+          <mat-icon aria-label="delete-button" fontIcon="delete"/>
+        </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+}
+
+<button mat-flat-button (click)="addGroup()">Add</button>

@@ -1,0 +1,200 @@
+
+.meet-detail-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+//div {
+//  border: solid 1px gray;
+//}
+
+.meet-header-bar-container {
+  width: 100%;
+
+  .meet-header-bar {
+    display: flex;;
+    flex-direction: row;
+    justify-self: stretch;
+    justify-content: space-between;
+
+
+    .back-button {
+      margin-bottom: 20px;
+      margin-top: 0;
+      border: solid 1px gray;
+    }
+
+    current-meet-user-info {
+      margin-right: 32px;
+    }
+  }
+}
+
+.meet-detail-info {
+  margin-left: 20px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+}
+
+
+.date-picker-container {
+  display: flex;
+  justify-content: center;
+}
+
+.date-picker-card {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  margin: 10px;
+
+  button {
+    background: darkslategray;
+  }
+}
+
+.date-expansion-panel {
+  width: 100%;
+  background: darkslategray;
+
+}
+
+.card-row {
+  display: flex;
+  flex-flow: row;
+  margin: 2px;
+
+  .row-item {
+    background: teal;
+    padding: 8px;
+    width: 100%;
+  }
+}
+
+.selected-date-info {
+  margin-bottom: 8px;
+}
+
+.meet-date-container {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  justify-self: stretch;
+  //justify-content: space-between;
+
+  .selected-date {
+    border: solid 1px red;
+  }
+
+  .meet-date-card {
+    margin: 2px 0 2px 0;
+
+    .date-card-left-column {
+      display: flex;
+      justify-self: center;
+      text-align: center;
+      flex-direction: column;
+      overflow: auto;
+      margin-right: 2px;
+
+      .date-card-date-tile {
+        margin-bottom: 16px;
+      }
+
+      .date-card-button-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .vote-button-container {
+          padding-bottom: 8px;
+        }
+      }
+    }
+
+    .date-card-vote-column {
+
+      overflow: auto;
+      margin-left: 2px;
+
+      .vote-column-title {
+        display: flex;
+        align-self: flex-start;
+      }
+
+      .vote-column-list {
+        display: flex;
+        text-align: left;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+
+.meet-name-input {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  justify-content: space-evenly;
+  align-items: center;
+
+  button {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media(min-width: 768px) {
+  .meet-detail-component {
+    font-size: 1.2rem;
+  }
+
+  .meet-date-container {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+
+    .meet-date-card {
+      display: flex;
+      flex-direction: column;
+      margin: 2px;
+
+      .card-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+
+
+        .date-card-left-column {
+          width: 160px;
+          margin: 2px;
+          overflow: auto;
+        }
+
+        .date-card-vote-column {
+          width: 160px;
+
+          margin: 2px;
+          overflow: auto;
+          padding: 8px;
+        }
+
+        .row-item {
+          max-width: 160px;
+          padding: 0;
+        }
+      }
+    }
+
+
+  }
+
+
+}

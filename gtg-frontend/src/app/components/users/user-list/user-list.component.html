@@ -1,0 +1,30 @@
+<p>user-list works!</p>
+
+@for (user of fullUserList(); track user.id) {
+  <div class="basic-item-row">
+
+    <div class="basic-item-column">
+      {{ user.name }}
+    </div>
+    <div class="basic-item-column">
+      {{ user.email }}
+    </div>
+    <div class="basic-item-column">
+      <div>
+
+        <div class="edit-button-column">
+
+          <button type="button" mat-mini-fab (click)="editUser(user.id)">
+            <mat-icon aria-label="edit-button" fontIcon="edit"/>
+          </button>
+<!--          <button class="game-delete-button" mat-mini-fab (click)="deleteGame(game.id)">-->
+<!--            <mat-icon aria-label="delete-button" fontIcon="delete"/>-->
+<!--          </button>-->
+        </div>
+      </div>
+    </div>
+
+  </div>
+}
+
+<button mat-flat-button (click)="addUser()">Add</button>

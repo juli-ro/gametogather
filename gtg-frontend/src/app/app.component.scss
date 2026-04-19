@@ -1,0 +1,33 @@
+
+.flexExpand {
+  flex: 1 1 auto;
+}
+
+
+.site-container {
+  height: 100vh;
+  padding: 0;
+}
+.site-sidenav {
+  width: 60%;
+}
+.title {
+  margin-left: 8px;
+}
+.site-content {
+  padding: 16px;
+}
+
+.header-toolbar{
+  visibility: collapse;
+}
+
+@media(min-width: 768px) {
+  .header-toolbar{
+    visibility: visible;
+  }
+  .logout-button{
+    horiz-align: right;
+  }
+
+}

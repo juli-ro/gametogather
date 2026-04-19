@@ -1,0 +1,55 @@
+<div class="game-list-group-component">
+
+  <div class="group-selection">
+    <div>
+      <mat-label>Group:</mat-label>
+    </div>
+    <mat-form-field>
+      <mat-label>Group</mat-label>
+      <mat-select [formControl]="groupSelectControl" (selectionChange)="groupSelected()">
+        @for (item of groupList(); track item.id) {
+          <mat-option [value]="item">{{ item.name }}</mat-option>
+        }
+        @if (groupList().length < 1) {
+          <mat-option>None</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+
+  <div class="basic-list-header-bar">
+
+    <div>
+      Title
+    </div>
+    <div>
+      Play time
+    </div>
+    <!--    <div>-->
+    <!--      No. of players-->
+    <!--    </div>-->
+    <div>
+      Game owner
+    </div>
+  </div>
+  <hr>
+  @for (game of groupGameList(); track game.id) {
+    <div class="basic-item-row">
+      <div class="basic-item-column">
+        {{ game.name }}
+      </div>
+      <div class="basic-item-column">
+        {{ game.playTime }}
+      </div>
+      <!--          <div>-->
+      <!--            {{ game.minPlayerNumber }} - {{ game.maxPlayerNumber }}-->
+      <!--          </div>-->
+      <div class="basic-item-column">
+        {{ game.user?.name }}
+      </div>
+    </div>
+  }
+
+</div>

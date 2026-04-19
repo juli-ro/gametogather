@@ -1,0 +1,61 @@
+<div>
+
+  <mat-card>
+    <mat-card-header>
+
+    </mat-card-header>
+    <mat-card-content>
+      <div class="game-detail-header-content">
+
+        <h2>Game</h2>
+        <button mat-mini-fab (click)="deleteGame()">
+          <mat-icon aria-label="delete-button" fontIcon="delete"/>
+        </button>
+      </div>
+      <form [formGroup]="gameForm" (submit)="saveGameEntry()" (reset)="navigateBack()">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput
+                 placeholder="User"
+                 formControlName="name"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Min. Player Number</mat-label>
+          <input matInput
+                 type="number"
+                 placeholder="min"
+                 formControlName="minPlayer"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Max. Player Number</mat-label>
+          <input matInput
+                 type="number"
+                 placeholder="max"
+                 formControlName="maxPlayer"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Play time</mat-label>
+          <input matInput
+                 type="number"
+                 placeholder="Play Time"
+                 formControlName="playTime"/>
+        </mat-form-field>
+        <div class="game-detail-lower-buttons">
+
+          <button mat-raised-button
+                  type="submit"
+                  color="primary">
+            save
+          </button>
+          <button mat-raised-button
+                  class="game-detail-back-btn"
+                  type="reset"
+                  color="secondary">
+            back
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>

@@ -1,0 +1,98 @@
+#@gtg_backend_HostAddress = http://localhost:5282
+#@usedGuid = b596cab1-3793-41fd-a6fc-75d3ba5e3c55
+####
+#
+#GET {{gtg_backend_HostAddress}}/Game
+#Accept: application/json
+#
+#
+####
+#GET {{gtg_backend_HostAddress}}/Game/UserGames/b3394005-75db-4a10-9a34-5a0463c216dd
+#Accept: application/json
+#
+####
+#
+#GET {{gtg_backend_HostAddress}}/Game/49e252a1-9c50-442f-9f4c-35817d9471c9
+#Accept: application/json
+#
+####
+#POST {{gtg_backend_HostAddress}}/Game
+#Content-Type: application/json
+#
+#{
+#  "id": "00000000-0000-0000-0000-000000000000",
+#  "gameTitle": "postTest",
+#  "minPlayerNumber": 2,
+#  "maxPlayerNumber": 2,
+#  "playTime": 2,
+#  "userId": "b3394005-75db-4a10-9a34-5a0463c216dd"
+#}
+#
+####
+#
+#PUT {{gtg_backend_HostAddress}}/Game
+#Content-Type: application/json
+#
+#{
+#  "gameTitle": "postTest",
+#  "minPlayerNumber": 3,
+#  "maxPlayerNumber": 233,
+#  "playTime": 3,
+#  "id": "{{usedGuid}}",
+#  "userId": "b3394005-75db-4a10-9a34-5a0463c216dd"
+#
+#}
+#
+####
+#
+#DELETE {{gtg_backend_HostAddress}}/Game/{{usedGuid}}
+#Content-Type: application/json
+#
+#### User ###
+#
+#GET {{gtg_backend_HostAddress}}/User
+#Accept: application/json
+#
+####
+#GET {{gtg_backend_HostAddress}}/User/b3394005-75db-4a10-9a34-5a0463c216dd
+#Accept: application/json
+#
+####
+#POST {{gtg_backend_HostAddress}}/User
+#Content-Type: application/json
+#//Todo: update this
+#{
+#  "id": "00000000-0000-0000-0000-000000000000",
+#  "gameTitle": "postTest",
+#  "minPlayerNumber": 2,
+#  "maxPlayerNumber": 2,
+#  "playTime": 2,
+#  "userId": "b3394005-75db-4a10-9a34-5a0463c216dd"
+#}
+#
+####
+#PUT {{gtg_backend_HostAddress}}/Game
+#Content-Type: application/json
+#//Todo: update this
+#{
+#  "gameTitle": "postTest",
+#  "minPlayerNumber": 3,
+#  "maxPlayerNumber": 233,
+#  "playTime": 3,
+#  "id": "{{usedGuid}}",
+#  "userId": "b3394005-75db-4a10-9a34-5a0463c216dd"
+#}
+#
+####
+#DELETE {{gtg_backend_HostAddress}}/Game/{{usedGuid}}
+#Content-Type: application/json
+#
+#### Login
+#
+#POST {{gtg_backend_HostAddress}}/Login
+#Content-Type: application/json
+#
+#{
+#  "userName": "julian",
+#  "password": "123"
+#}

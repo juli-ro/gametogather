@@ -1,0 +1,75 @@
+<form [formGroup]="passwordForm" (submit)="changePassword()" (reset)="navigateBack()">
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Old Password</mat-label>
+      <input matInput
+             [type]="isPasswordHidden()[PasswordField.Old] ? 'password' : 'text'"
+             placeholder="Old Password"
+             formControlName="oldPassword"/>
+      <button
+        type="button"
+        mat-icon-button
+        matIconSuffix
+        (click)="togglePasswordVisibility(PasswordField.Old ,$event)"
+        [attr.aria-label]="'Hide old password'"
+        [attr.aria-pressed]="isPasswordHidden()[PasswordField.Old]"
+      >
+        <mat-icon>{{ isPasswordHidden()[PasswordField.Old] ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>New Password</mat-label>
+      <input matInput
+             [type]="isPasswordHidden()[PasswordField.New] ? 'password' : 'text'"
+             placeholder="New Password"
+             formControlName="newPassword"
+      />
+      <button
+        type="button"
+        mat-icon-button
+        matIconSuffix
+        (click)="togglePasswordVisibility(PasswordField.New ,$event)"
+        [attr.aria-label]="'Hide old password'"
+        [attr.aria-pressed]="isPasswordHidden()[PasswordField.New]"
+      >
+        <mat-icon>{{ isPasswordHidden()[PasswordField.New] ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>New Password Confirmation</mat-label>
+      <input matInput
+             [type]="isPasswordHidden()[PasswordField.Confirm] ? 'password' : 'text'"
+             placeholder="New Password confirmation"
+             formControlName="newPasswordConfirmation"
+      />
+      <button
+        type="button"
+        mat-icon-button
+        matIconSuffix
+        (click)="togglePasswordVisibility(PasswordField.Confirm ,$event)"
+        [attr.aria-label]="'Hide old password'"
+        [attr.aria-pressed]="isPasswordHidden()[PasswordField.Confirm]"
+      >
+        <mat-icon>{{ isPasswordHidden()[PasswordField.Confirm] ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button mat-raised-button
+            type="submit">
+      change
+    </button>
+  </div>
+
+  <button mat-raised-button
+          type="reset"
+          color="secondary">
+    back
+  </button>
+</form>
+

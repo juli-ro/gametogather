@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  {{ data.message }}
+  <div>
+    <div>
+      <mat-label>Group:</mat-label>
+    </div>
+    <mat-form-field>
+      <mat-label>Group</mat-label>
+      <mat-select [formControl]="groupSelectControl">
+        @for (item of data.selectionList; track item.id) {
+          <mat-option [value]="item">{{ item.name }}</mat-option>
+        }
+        @if(data.selectionList){
+          @if (data.selectionList.length < 1) {
+            <mat-option>None</mat-option>
+          }
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ data.cancelText }}</button>
+  <button mat-button [mat-dialog-close]="groupSelectControl.value" color="primary">{{ data.confirmText }}</button>
+</mat-dialog-actions>

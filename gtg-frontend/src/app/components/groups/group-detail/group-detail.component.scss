@@ -1,0 +1,12 @@
+@use "../../../../theme.scss" as theme;
+
+
+.group-detail-component{
+  font-size: 1rem;
+}
+
+@media(min-width: 768px) {
+  .group-detail-component {
+    font-size: 1.2rem;
+  }
+}

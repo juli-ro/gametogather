@@ -1,0 +1,13 @@
+@use "../../../../theme.scss" as theme;
+
+
+.group-list-component{
+  font-size: 1rem;
+}
+
+
+@media(min-width: 768px) {
+  .group-list-component {
+    font-size: 1.2rem;
+  }
+}

@@ -1,0 +1,33 @@
+<form [formGroup]="userForm" (submit)="saveUserEntry()" (reset)="navigateBack()">
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput
+             placeholder="User"
+             formControlName="name"/>
+    </mat-form-field>
+  </div>
+  <div>
+  <mat-form-field appearance="outline">
+    <mat-label>email</mat-label>
+    <input matInput
+           placeholder="email"
+           formControlName="email"/>
+  </mat-form-field>
+  </div>
+  <div class="game-detail-lower-buttons">
+
+    <button mat-raised-button
+            (click)="saveUserEntry()"
+            type="submit"
+            color="primary">
+      save
+    </button>
+    <button mat-raised-button
+            class="game-detail-back-btn"
+            type="reset"
+            color="secondary">
+      back
+    </button>
+  </div>
+</form>

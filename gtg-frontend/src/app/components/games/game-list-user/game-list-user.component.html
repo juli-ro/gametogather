@@ -1,0 +1,52 @@
+<div class="game-list-user-component">
+
+
+  <div class="basic-list-header-bar">
+
+    <div>
+      Name
+    </div>
+    <!--        <div>-->
+    <!--          <p>Players-->
+    <!--        </div>-->
+    <div>
+      Time
+    </div>
+    <div>
+      Options
+    </div>
+  </div>
+
+  <hr>
+  @for (game of gameList(); track game.id) {
+    <div class="basic-item-row">
+
+      <div class="basic-item-column">
+        {{ game.name }}
+      </div>
+      <!--          <div>-->
+      <!--            {{ game.minPlayerNumber }} - {{ game.maxPlayerNumber }}-->
+      <!--          </div>-->
+      <div class="basic-item-column">
+        {{ game.playTime }} minutes
+      </div>
+      <div class="basic-item-column">
+        <div>
+
+          <div class="edit-button-column">
+
+            <button mat-mini-fab (click)="editGame(game.id)">
+              <mat-icon aria-label="edit-button" fontIcon="edit"/>
+            </button>
+            <button class="game-delete-button" mat-mini-fab (click)="deleteGame(game.id)">
+              <mat-icon aria-label="delete-button" fontIcon="delete"/>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  }
+
+  <button mat-flat-button (click)="addGame()">Add</button>
+</div>

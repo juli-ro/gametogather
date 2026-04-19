@@ -1,0 +1,63 @@
+<div class="group-detail-component">
+  <h2>
+    Group: {{ group()?.name }}
+  </h2>
+  <hr>
+
+  <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Group Game List</mat-panel-title>
+      <mat-panel-description> {{ panelOpenState() ? '' : 'Click to open' }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="basic-list-header-bar">
+
+      <div>
+        Title
+      </div>
+      <div>
+        Play time
+      </div>
+      <!--    <div>-->
+      <!--      No. of players-->
+      <!--    </div>-->
+      <div>
+        Game owner
+      </div>
+    </div>
+    <hr>
+    @for (game of groupGameList(); track game.id) {
+      <div class="basic-item-row">
+        <div class="basic-item-column">
+          {{ game.name }}
+        </div>
+        <div class="basic-item-column">
+          {{ game.playTime }}
+        </div>
+        <!--          <div>-->
+        <!--            {{ game.minPlayerNumber }} - {{ game.maxPlayerNumber }}-->
+        <!--          </div>-->
+        <div class="basic-item-column">
+          {{ game.user?.name }}
+        </div>
+      </div>
+    }
+  </mat-expansion-panel>
+
+  <div class="meet-name-input">
+    <form>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telegram-Chat-Id</mat-label>
+        <input matInput [formControl]="telegramChatId">
+      </mat-form-field>
+      <button type="button" mat-icon-button (click)="updateTelegramChatId()">
+        <mat-icon fontIcon="save"></mat-icon>
+      </button>
+    </form>
+  </div>
+
+  <div>TBD:</div>
+  <div>Assignments</div>
+  <div>Messages</div>
+  <div>Group user Administration</div>
+</div>

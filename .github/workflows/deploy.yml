@@ -1,0 +1,32 @@
+name: Deploy to Hetzner
+
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USERNAME }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            cd /var/www/gtg-mono
+            
+
+            git pull origin main
+            
+
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
+            echo "DB_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }}" >> .env
+            echo "JWT_TOKEN_SECRET=${{ secrets.JWT_TOKEN_SECRET }}" >> .env
+            echo "TELEGRAM_BOT_KEY=${{ secrets.TELEGRAM_BOT_KEY }}" >> .env
+            
+
+            docker compose up -d --build

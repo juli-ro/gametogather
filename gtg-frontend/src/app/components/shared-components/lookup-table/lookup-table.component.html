@@ -1,0 +1,22 @@
+<div class="list-body">
+  @if (lookupItem.length < 1) {
+    empty
+  }
+  @for (item of lookupItem; track item.id) {
+    <div
+      [class.selected-item]="item === selectedItem">
+      <div class="lookup-list-item-container">
+        <div class="list-column"
+             (click)="selectItem(item)">
+          {{ item.name }}
+        </div>
+        @if (canGoToDetail) {
+          <div class="list-column">
+            <button (click)="onGoToDetailPage(item.id)">Detail</button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+
