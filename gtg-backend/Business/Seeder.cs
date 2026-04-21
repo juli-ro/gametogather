@@ -44,36 +44,34 @@ public static class Seeder
             context.SaveChanges();
         }
     
-        var kniffel = context.Set<Game>()
-            .FirstOrDefault(g => g.Name == "Kniffel");
-        if (kniffel == null)
-        {
-            context.Set<Game>().AddAsync(new Game()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Kniffel",
-                MaxPlayerNumber = 4,
-                MinPlayerNumber = 1,
-                PlayTime = 30,
-                UserId = baseUserId
-            });
-            context.SaveChanges();
-        }
-    
-        var maumau = context.Set<Game>()
-            .FirstOrDefault(g => g.Name == "Mau Mau");
-        if (maumau == null)
-        {
-            context.Set<Game>().AddAsync(new Game()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Mau Mau",
-                MaxPlayerNumber = 8,
-                MinPlayerNumber = 2,
-                PlayTime = 10,
-                UserId = baseUserId
-            });
-            context.SaveChanges();
-        }
+        // var kniffel = context.Set<Game>()
+        //     .FirstOrDefault(g => g.Name == "Kniffel");
+        // if (kniffel == null)
+        // {
+        //     context.Set<Game>().AddAsync(new Game()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         Name = "Kniffel",
+        //         MaxPlayerNumber = 4,
+        //         MinPlayerNumber = 1,
+        //         PlayTime = 30,
+        //     });
+        //     context.SaveChanges();
+        // }
+        //
+        // var maumau = context.Set<Game>()
+        //     .FirstOrDefault(g => g.Name == "Mau Mau");
+        // if (maumau == null)
+        // {
+        //     context.Set<Game>().AddAsync(new Game()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         Name = "Mau Mau",
+        //         MaxPlayerNumber = 8,
+        //         MinPlayerNumber = 2,
+        //         PlayTime = 10,
+        //     });
+        //     context.SaveChanges();
+        // }
     }
 }

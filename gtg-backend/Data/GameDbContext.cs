@@ -123,6 +123,7 @@ public class GameDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<UserGame> UserGames { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -175,10 +176,6 @@ public class GameDbContext(DbContextOptions options) : DbContext(options)
         
         modelBuilder.Entity<Game>()
             .HasKey(game => game.Id);
-        modelBuilder.Entity<Game>()
-            .HasOne<User>(game => game.User)
-            .WithMany(user => user.Games)
-            .HasForeignKey(game => game.UserId);
         modelBuilder.Entity<Game>()
             .HasOne<GameGenre>(game => game.GameGenre)
             .WithMany(genre => genre.Games)
@@ -300,6 +297,17 @@ public class GameDbContext(DbContextOptions options) : DbContext(options)
             .HasOne<Role>(user => user.Role)
             .WithMany(role => role.Users)
             .HasForeignKey(user => user.RoleId);
+        
+        modelBuilder.Entity<UserGame>()
+            .HasKey(userGame => userGame.Id);
+        modelBuilder.Entity<UserGame>()
+            .HasOne<User>(userGame => userGame.User)
+            .WithMany(userGame => userGame.UserGames)
+            .HasForeignKey(userGame => userGame.UserId);
+        modelBuilder.Entity<UserGame>()
+            .HasOne<Game>(userGame => userGame.Game)
+            .WithMany(game => game.UserGames)
+            .HasForeignKey(userGame => userGame.GameId);
         
     }
 }

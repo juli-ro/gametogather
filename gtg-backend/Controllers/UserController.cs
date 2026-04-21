@@ -28,7 +28,9 @@ public class UserController : BaseController<User,UserDto>
     public override async Task<IActionResult> GetAll()
     {
         List<User>? itemList = await _context.Users
-            .Include(user => user.Games)
+            .AsNoTracking()
+            .Include(user => user.UserGames)
+            .ThenInclude(userGames => userGames.Game)
             .Include(user => user.Role)
             .ToListAsync();
         List<UserDto>? dtoList = _mapper.Map<List<UserDto>>(itemList);
@@ -40,7 +42,8 @@ public class UserController : BaseController<User,UserDto>
     public override async Task<IActionResult> GetById(Guid id)
     {
         User? item = await _dbSet
-            .Include(user => user.Games)
+            .Include(user => user.UserGames)
+            .ThenInclude(userGames => userGames.Game)
             .Include(user => user.Role)
             .FirstOrDefaultAsync(user => user.Id == id);
         if (item == null)

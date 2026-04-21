@@ -111,9 +111,9 @@ public class GroupController : BaseController<Group, GroupDto>
         }
 
         var group = new Group{Name = "New Group"};
-        group.GroupUsers = new List<GroupUser>{new GroupUser{UserId = user.Id}};
         
         EntityEntry<Group> entry = await _context.Groups.AddAsync(group);
+        group.GroupUsers = new List<GroupUser>{new GroupUser{UserId = user.Id, GroupId = entry.Entity.Id}};
         
         var groupSetting = new GroupSettings{GroupId = entry.Entity.Id};
         

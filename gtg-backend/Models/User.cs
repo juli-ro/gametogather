@@ -21,7 +21,7 @@ public class User : ModelBase
     
     //Navigation Properties
     public Role? Role { get; set; }
-    public ICollection<Game>? Games { get; set; }
+    public ICollection<UserGame> UserGames { get; set; } = new List<UserGame>();
     public ICollection<GroupUser>? GroupUsers { get; set; }
     public ICollection<MeetUser>? MeetUsers { get; set; }
 }

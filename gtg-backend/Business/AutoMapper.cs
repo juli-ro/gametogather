@@ -9,14 +9,11 @@ public class AutoMapper : Profile
     public AutoMapper()
     {
         CreateMap<Game, GameDto>()
-            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
-            .ForMember(dest => dest.UserId, opt => opt.Ignore())
             .ReverseMap();
         CreateMap<User, UserDto>()
-            .ForMember(dest => dest.Games, opt => opt.MapFrom(src => src.Games))
+            .ForMember(dest => dest.Games, opt => opt.MapFrom(src => src.UserGames.Select(userGame => userGame.Game)))
             .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.Name))
             .ReverseMap()
-            .ForMember(dest => dest.Games, opt => opt.MapFrom(src => src.Games))
             .ForMember(dest => dest.Password, opt => opt.Ignore())
             .ForMember(dest => dest.Email, opt => opt.Ignore())
             .ForMember(dest => dest.Salt, opt => opt.Ignore());

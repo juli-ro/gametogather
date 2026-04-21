@@ -9,12 +9,14 @@ public class Game : ModelBase
     public int MinPlayerNumber { get; set; }
     public int MaxPlayerNumber { get; set; }
     public int PlayTime { get; set; }
-    public Guid? UserId { get; set; }
+    public int YearPublished { get; set; }
+    public int MinAge { get; set; }
+    public bool IsVerified { get; set; }
     public Guid? GenreId { get; set; }
     public Guid? ImageId { get; set; }
     
     //Navigation Properties
-    public User? User { get; set; }
+    public ICollection<UserGame>? UserGames { get; set; }
     public GameGenre? GameGenre { get; set; }
     public Image? Image { get; set; }
   

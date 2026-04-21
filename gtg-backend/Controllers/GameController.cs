@@ -23,7 +23,6 @@ public class GameController : BaseController<Game, GameDto>
     public override async Task<IActionResult> GetAll()
     {
         List<Game>? itemList = await _dbSet
-            .Include(game => game.User)
             .ToListAsync();
         List<GameDto>? dtoList = _mapper.Map<List<GameDto>>(itemList);
 
@@ -42,7 +41,6 @@ public class GameController : BaseController<Game, GameDto>
         {
             return BadRequest();
         }
-        dto.UserId = new Guid(userId);
         Game? item = _mapper.Map<Game>(dto);
         item.Id = Guid.NewGuid();
         EntityEntry<Game> entity = _dbSet.Add(item);
@@ -63,7 +61,6 @@ public class GameController : BaseController<Game, GameDto>
         {
             return Unauthorized();
         }
-        itemDto.UserId = new Guid(userId);
         Game? item = _mapper.Map<Game>(itemDto);
         _dbSet.Update(item);
         await _context.SaveChangesAsync();
@@ -72,7 +69,6 @@ public class GameController : BaseController<Game, GameDto>
 
 
     [HttpGet("UserGames")]
-    // [Route("UserGames/{id}")]
     public async Task<IActionResult> GetUserGamesByUserId()
     {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -80,38 +76,61 @@ public class GameController : BaseController<Game, GameDto>
         {
             return Unauthorized();
         }
-        
-        List<Game>? itemList = await _dbSet
-            .Include(game => game.User)
-            .Where(game => game.UserId == new Guid(userId))
+
+        List<Game> itemList = await _context.UserGames
+            // .Include(userGame => userGame.Game)
+            .Where(x => x.UserId == new Guid(userId))
+            .Select(y => y.Game)
             .ToListAsync();
+ 
         List<GameDto>? dtoList = _mapper.Map<List<GameDto>>(itemList);
 
         return Ok(dtoList);
     }
 
-    [HttpGet("GroupGames/{groupId}")]
+    [HttpGet("GroupGames/{groupId:guid}")]
     public async Task<IActionResult> GetGroupGames(Guid groupId)
     {
-        var groupUsers = await _context.GroupUsers
-            .Include(groupUser => groupUser.User)
-            .ThenInclude(user => user.Games)
-            .Where(group => group.GroupId == groupId)
+        //Todo: Check if commented code below is obsolete
+        
+        // List<GroupUser> groupUsers = await _context.GroupUsers
+        //     // .Include(groupUser => groupUser.User)
+        //     .Where(group => group.GroupId == groupId)
+        //     .ToListAsync();
+        //
+        // List<Game> groupGameList = new List<Game>();
+        //
+        // foreach (GroupUser? groupUser in groupUsers)
+        // {
+        //     List<Game> itemList = await _context.UserGames
+        //         // .Include(userGame => userGame.Game)
+        //         .Where(x => x.UserId == groupUser.UserId)
+        //         .Select(y => y.Game)
+        //         .ToListAsync();
+        //     
+        //     groupGameList.AddRange(itemList);
+        // }
+        
+        // List<Game> groupGameList = await _context.GroupUsers
+        //     .Where(x => x.GroupId == groupId)
+        //     .Join(_context.UserGames,
+        //         groupUser => groupUser.UserId,
+        //         userGame => userGame.UserId,
+        //         (groupUser, userGame) => userGame.Game)
+        //     .Distinct()
+        //     .AsNoTracking()
+        //     .ToListAsync();
+        
+        
+        var groupGameList = await _context.GroupUsers
+            .Where(gu => gu.GroupId == groupId)
+            .SelectMany(gu => gu.User!.UserGames)
+            .Select(ug => ug.Game)
+            .Distinct()
+            .AsNoTracking()
             .ToListAsync();
-
-        List<Game> gameList = new List<Game>();
-
-        foreach (var groupUser in groupUsers)
-        {
-            if (groupUser?.User?.Games != null)
-            {
-                var userGames = groupUser.User.Games.ToList();
-                gameList.AddRange(userGames);
-            }
-        }
-
-
-        List<GameDto>? dtoList = _mapper.Map<List<GameDto>>(gameList);
+        
+        List<GameDto>? dtoList = _mapper.Map<List<GameDto>>(groupGameList);
 
         return Ok(dtoList);
     }
@@ -120,7 +139,7 @@ public class GameController : BaseController<Game, GameDto>
     public override async Task<IActionResult> GetById(Guid id)
     {
         Game? item = await _dbSet
-            .Include(game => game.User)
+            .AsNoTracking()
             .FirstOrDefaultAsync(game => game.Id == id);
         if (item == null)
         {
