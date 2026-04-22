@@ -43,7 +43,7 @@ public static class Seeder
             });
             context.SaveChanges();
         }
-    
+        //
         // var kniffel = context.Set<Game>()
         //     .FirstOrDefault(g => g.Name == "Kniffel");
         // if (kniffel == null)
