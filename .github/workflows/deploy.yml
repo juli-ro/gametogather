@@ -29,4 +29,5 @@ jobs:
             echo "TELEGRAM_BOT_KEY=${{ secrets.TELEGRAM_BOT_KEY }}" >> .env
             
 
-            docker compose up -d --build
+            docker compose build --no-cache
+            docker compose up -d
