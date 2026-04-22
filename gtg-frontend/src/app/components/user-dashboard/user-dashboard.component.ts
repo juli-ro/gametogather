@@ -53,7 +53,7 @@ export class UserDashboardComponent {
   ) {
     this.groupList = this.groupService.publicSignalList
     this.selectedGroup = this.groupService.publicSignalItem
-    this.gameList = this.gameService.publicSignalList
+    this.gameList = this.gameService.publicUserGameList
     this.groupGameList = this.gameService.publicSignalGroupGameList
     this.meetList = this.meetService.publicSignalList
     this.pastMeetList = this.meetService.pastMeetings

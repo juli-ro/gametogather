@@ -70,11 +70,11 @@ export class GameDetailComponent {
       const gameToUpdate: IGame = {
         id: oldGameEntry.id,
         name: this.gameForm.value.name ?? oldGameEntry.name,
-        userId: oldGameEntry.userId,
         playTime: this.gameForm.value.playTime ?? oldGameEntry.playTime,
         minPlayerNumber: this.gameForm.value.minPlayer ?? oldGameEntry.minPlayerNumber,
         maxPlayerNumber: this.gameForm.value.maxPlayer ?? oldGameEntry.maxPlayerNumber,
-        user: null
+        minAge: oldGameEntry.minAge,
+        yearPublished: oldGameEntry.yearPublished
       };
       await this.gameService.updateItemInList(gameToUpdate)
       this.feedbackService.openSnackBarTimed("Game has been updated", "close", 5000)

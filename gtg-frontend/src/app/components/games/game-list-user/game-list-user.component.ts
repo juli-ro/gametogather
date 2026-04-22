@@ -7,14 +7,16 @@ import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
 import {FeedbackService} from '../../../shared/feedback.service';
 import {defaultGuid} from '../../../shared/Util/constants';
+import {AddUserGameComponent} from '../add-user-game/add-user-game.component';
 
 @Component({
   selector: 'app-game-list-user',
   imports: [
     MatButton,
     MatIcon,
-    MatMiniFabButton
-],
+    MatMiniFabButton,
+    AddUserGameComponent
+  ],
   templateUrl: './game-list-user.component.html',
   styleUrl: './game-list-user.component.scss',
   standalone: true
@@ -26,7 +28,7 @@ export class GameListUserComponent {
   constructor(private gameService: GameService,
               private feedbackService: FeedbackService,
               private router: Router) {
-      this.gameList = gameService.publicSignalList
+      this.gameList = gameService.publicUserGameList
   }
 
   async ngOnInit(): Promise<void>{
@@ -37,11 +39,11 @@ export class GameListUserComponent {
     const emptyGame :IGame = {
       id: defaultGuid,
       name: "New Game",
-      userId: defaultGuid,
       playTime: 1,
       minPlayerNumber: 1,
       maxPlayerNumber: 1,
-      user: null
+      minAge: 1,
+      yearPublished: 2020
     };
     await this.gameService.addGame(emptyGame)
   }

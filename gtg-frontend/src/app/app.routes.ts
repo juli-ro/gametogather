@@ -12,6 +12,7 @@ import {UserDetailComponent} from './components/users/user-detail/user-detail.co
 import {UserSettingsComponent} from './components/users/user-settings/user-settings.component';
 import {authGuard} from './shared/Util/auth-guard';
 import {adminGuard} from './shared/Util/admin-guard';
+import {AddUserGameComponent} from './components/games/add-user-game/add-user-game.component';
 
 export const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -25,6 +26,7 @@ export const routes: Routes = [
   {path: "group-detail/:id", component: GroupDetailComponent, canActivate:[authGuard]},
   {path: "user-list", component: UserListComponent, canActivate:[authGuard, adminGuard]},
   {path: "user-detail/:id", component: UserDetailComponent, canActivate:[authGuard, adminGuard]},
-  {path: "user-settings", component: UserSettingsComponent, canActivate:[authGuard]}
+  {path: "user-settings", component: UserSettingsComponent, canActivate:[authGuard]},
+  {path: "add-user-game", component: AddUserGameComponent, canActivate:[authGuard]}
 
 ];

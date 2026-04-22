@@ -5,6 +5,6 @@ export interface IGame extends ILookupBase{
   minPlayerNumber: number,
   maxPlayerNumber: number,
   playTime: number,
-  userId: string,
-  user: IUser | null
+  minAge: number,
+  yearPublished: number,
 }

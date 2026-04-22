@@ -9,7 +9,4 @@ public class GameDto
     public int PlayTime { get; set; }
     public int YearPublished { get; set; }
     public int MinAge { get; set; }
-    
-//Todo: think about only exposing UserName
-
 }

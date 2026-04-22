@@ -48,6 +48,29 @@ public class GameController : BaseController<Game, GameDto>
         GameDto entityDto = _mapper.Map<GameDto>(entity.Entity);
         return Ok(entityDto);
     }
+
+    [HttpPost("AddUserGame")]
+    public async Task<IActionResult> AddUserGame([FromBody] GameDto? dto)
+    {
+        if (dto == null)
+        {
+            return BadRequest();
+        }
+        
+        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+        
+        
+        _context.UserGames.Add(new UserGame { UserId = new Guid(userId), GameId = dto.Id });
+
+        await _context.SaveChangesAsync();
+        return Ok(dto);
+
+    }
     
     [HttpPut]
     public override async Task<IActionResult> UpdateItem([FromBody]GameDto? itemDto)
@@ -91,37 +114,6 @@ public class GameController : BaseController<Game, GameDto>
     [HttpGet("GroupGames/{groupId:guid}")]
     public async Task<IActionResult> GetGroupGames(Guid groupId)
     {
-        //Todo: Check if commented code below is obsolete
-        
-        // List<GroupUser> groupUsers = await _context.GroupUsers
-        //     // .Include(groupUser => groupUser.User)
-        //     .Where(group => group.GroupId == groupId)
-        //     .ToListAsync();
-        //
-        // List<Game> groupGameList = new List<Game>();
-        //
-        // foreach (GroupUser? groupUser in groupUsers)
-        // {
-        //     List<Game> itemList = await _context.UserGames
-        //         // .Include(userGame => userGame.Game)
-        //         .Where(x => x.UserId == groupUser.UserId)
-        //         .Select(y => y.Game)
-        //         .ToListAsync();
-        //     
-        //     groupGameList.AddRange(itemList);
-        // }
-        
-        // List<Game> groupGameList = await _context.GroupUsers
-        //     .Where(x => x.GroupId == groupId)
-        //     .Join(_context.UserGames,
-        //         groupUser => groupUser.UserId,
-        //         userGame => userGame.UserId,
-        //         (groupUser, userGame) => userGame.Game)
-        //     .Distinct()
-        //     .AsNoTracking()
-        //     .ToListAsync();
-        
-        
         var groupGameList = await _context.GroupUsers
             .Where(gu => gu.GroupId == groupId)
             .SelectMany(gu => gu.User!.UserGames)

@@ -14,13 +14,16 @@ export class GameService extends ApiDataService<IGame> {
 
   protected override signalList = signal<IGame[]>([])
   protected override signalItem = signal<IGame | null>(null)
-  override  publicSignalList = this.signalList.asReadonly()
+  override publicSignalList = this.signalList.asReadonly()
   override publicSignalItem = this.signalItem.asReadonly()
+
+  private signalUserGameList = signal<IGame[]>([])
+  publicUserGameList = this.signalUserGameList.asReadonly()
 
   //Todo: all sort of methods have to be made because of this extra list (like empty array)
   // see how much of a hassle this is and maybe think of another way
   private signalGroupGameList: WritableSignal<IGame[]> = signal<IGame[]>([])
-  publicSignalGroupGameList= this.signalGroupGameList.asReadonly()
+  publicSignalGroupGameList = this.signalGroupGameList.asReadonly()
 
   constructor(override httpClient: HttpClient,
               override router: Router,
@@ -38,21 +41,21 @@ export class GameService extends ApiDataService<IGame> {
       const data = await lastValueFrom(
         this.httpClient.get<IGame[]>(`${this.APIUrl}/UserGames`, await this.getHttpOptions())
       )
-      this.signalList.set(data)
+      this.signalUserGameList.set(data)
     } catch (error) {
       await this.handleError(error)
     }
   }
 
-  async getGroupGameList(groupId: string){
-      try {
-        const data = await lastValueFrom(
-          this.httpClient.get<IGame[]>(`${this.APIUrl}/GroupGames/${groupId}`, await this.getHttpOptions())
-        )
-        this.signalGroupGameList.set(data)
-      } catch (error) {
-        await this.handleError(error)
-      }
+  async getGroupGameList(groupId: string) {
+    try {
+      const data = await lastValueFrom(
+        this.httpClient.get<IGame[]>(`${this.APIUrl}/GroupGames/${groupId}`, await this.getHttpOptions())
+      )
+      this.signalGroupGameList.set(data)
+    } catch (error) {
+      await this.handleError(error)
+    }
   }
 
   async addGame(gameToAdd: IGame) {
@@ -69,7 +72,22 @@ export class GameService extends ApiDataService<IGame> {
     }
   }
 
-  emptyGroupGameList(){
+  async addGameToUser(gameToAdd: IGame) {
+    try {
+      const data = await lastValueFrom(
+        this.httpClient.post<IGame>(`${this.APIUrl}/AddUserGame`, gameToAdd, await this.getHttpOptions())
+      )
+      if(data){
+        this.signalUserGameList.set(
+          [...this.signalUserGameList(), data]
+        )
+      }
+    } catch (error) {
+      await this.handleError(error)
+    }
+  }
+
+  emptyGroupGameList() {
     this.signalGroupGameList.set([])
   }
 
