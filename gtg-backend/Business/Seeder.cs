@@ -7,10 +7,6 @@ public static class Seeder
 {
     public static void SeedApplication(DbContext context)
     {
-        if (context.Database.EnsureCreated())
-        {
-            return;
-        }
     
         //Todo: put into own method
         Guid baseRoleId = Guid.Parse("3e45589d-e653-49eb-add7-78f6c33bb644");
