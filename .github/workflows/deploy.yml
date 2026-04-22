@@ -19,8 +19,9 @@ jobs:
           script: |
             cd /var/www/gtg-mono
             
-
-            git pull origin main
+            
+            git fetch --all
+	    git reset --hard origin/main
             
 
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
