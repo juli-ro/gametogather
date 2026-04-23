@@ -17,11 +17,10 @@ jobs:
           username: ${{ secrets.HETZNER_USERNAME }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
           script: |
-            cd /var/www/gtg-mono
+            cd /var/www/gametogather
             
             
-            git fetch --all
-            git reset --hard origin/main
+            git pull origin main
             
 
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
