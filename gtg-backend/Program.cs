@@ -118,7 +118,8 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<GameDbContext>();
         // Optional: Wait a few seconds manually if you aren't using RetryOnFailure
         // System.Threading.Thread.Sleep(5000); 
-        context.Database.Migrate();
+        await context.Database.MigrateAsync();
+        await Seeder.SeedApplication(context);
     }
     catch (Exception ex)
     {

@@ -22,11 +22,6 @@ namespace gtg_backend.Migrations
                 name: "IX_Games_UserId",
                 table: "Games");
 
-            migrationBuilder.RenameColumn(
-                name: "UserId",
-                table: "Games",
-                newName: "UserGameId");
-
             migrationBuilder.AddColumn<bool>(
                 name: "IsVerified",
                 table: "Games",
@@ -106,11 +101,6 @@ namespace gtg_backend.Migrations
             migrationBuilder.DropColumn(
                 name: "YearPublished",
                 table: "Games");
-
-            migrationBuilder.RenameColumn(
-                name: "UserGameId",
-                table: "Games",
-                newName: "UserId");
 
             migrationBuilder.CreateTable(
                 name: "NotificationStates",
