@@ -21,6 +21,11 @@ namespace gtg_backend.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Games_UserId",
                 table: "Games");
+            
+            migrationBuilder.RenameColumn(
+                name: "UserId",
+                table: "Games",
+                newName: "UserGameId");
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsVerified",

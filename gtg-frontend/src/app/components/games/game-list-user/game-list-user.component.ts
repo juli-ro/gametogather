@@ -47,12 +47,12 @@ export class GameListUserComponent {
     };
     await this.gameService.addGame(emptyGame)
   }
-  async deleteGame(id: string) {
+  async removeGameFromUser(id: string) {
     const confirmed = await this.feedbackService.openOkCancelDialog("Delete Game?",
       "Are you sure you want to delete the selected Game?",
       "delete");
     if (confirmed) {
-      await this.gameService.deleteItem(id);
+      await this.gameService.removeGameFromUser(id);
     }
     else{
       return

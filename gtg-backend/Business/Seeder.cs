@@ -8,8 +8,8 @@ public static class Seeder
 {
     public static async Task SeedApplication(GameDbContext context)
     {
-        Guid baseRoleId = Guid.Parse("3e45589d-e653-49eb-add7-78f6c33bb644");
-        Guid baseUserId = Guid.NewGuid();
+        Guid baseRoleId = Guid.Parse("d17a1ef3-a983-4d29-bd69-8026925101eb");
+        Guid baseUserId = Guid.Parse("3e45589d-e653-49eb-add7-78f6c33bb644");
         
         if (!await context.Roles.AnyAsync(r => r.Name == "baseUser"))
         {

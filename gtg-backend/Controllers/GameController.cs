@@ -22,7 +22,7 @@ public class GameController : BaseController<Game, GameDto>
     [HttpGet]
     public override async Task<IActionResult> GetAll()
     {
-        List<Game>? itemList = await _dbSet
+        List<Game> itemList = await _dbSet
             .ToListAsync();
         List<GameDto>? dtoList = _mapper.Map<List<GameDto>>(itemList);
 
@@ -64,6 +64,14 @@ public class GameController : BaseController<Game, GameDto>
             return Unauthorized();
         }
         
+        Guid userGuid = Guid.Parse(userId);
+
+        UserGame newUserGame = new UserGame { UserId = userGuid, GameId = dto.Id };
+
+        if (_context.UserGames.Any(x => newUserGame.GameId == x.GameId && newUserGame.UserId == x.UserId))
+        {
+            return Conflict();
+        }
         
         _context.UserGames.Add(new UserGame { UserId = new Guid(userId), GameId = dto.Id });
 
@@ -110,6 +118,29 @@ public class GameController : BaseController<Game, GameDto>
 
         return Ok(dtoList);
     }
+    
+    
+    [HttpDelete("RemoveUserGame/{gameId:guid}")]
+    public async Task<IActionResult> RemoveUserGame(Guid gameId)
+    {
+        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        UserGame? entryToDelete = await _context.UserGames.FirstOrDefaultAsync(ug => ug.GameId == gameId && ug.UserId == Guid.Parse(userId));
+
+        if (entryToDelete == null)
+        {
+            return NotFound();
+        }
+        
+        _context.UserGames.Remove(entryToDelete);
+
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
 
     [HttpGet("GroupGames/{groupId:guid}")]
     public async Task<IActionResult> GetGroupGames(Guid groupId)
@@ -126,6 +157,7 @@ public class GameController : BaseController<Game, GameDto>
 
         return Ok(dtoList);
     }
+
 
     [HttpGet("{id}")]
     public override async Task<IActionResult> GetById(Guid id)

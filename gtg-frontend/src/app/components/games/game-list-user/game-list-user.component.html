@@ -36,10 +36,10 @@
 
           <div class="edit-button-column">
 
-            <button mat-mini-fab (click)="editGame(game.id)">
-              <mat-icon aria-label="edit-button" fontIcon="edit"/>
-            </button>
-            <button class="game-delete-button" mat-mini-fab (click)="deleteGame(game.id)">
+<!--            <button mat-mini-fab (click)="editGame(game.id)">-->
+<!--              <mat-icon aria-label="edit-button" fontIcon="edit"/>-->
+<!--            </button>-->
+            <button class="game-delete-button" mat-mini-fab (click)="removeGameFromUser(game.id)">
               <mat-icon aria-label="delete-button" fontIcon="delete"/>
             </button>
           </div>

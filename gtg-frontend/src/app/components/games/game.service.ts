@@ -1,5 +1,5 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
-import {HttpClient,} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse,} from '@angular/common/http';
 import {lastValueFrom} from 'rxjs';
 import {IGame} from '../../models/game';
 import {Router} from '@angular/router';
@@ -83,6 +83,24 @@ export class GameService extends ApiDataService<IGame> {
         )
       }
     } catch (error) {
+      if (error instanceof HttpErrorResponse){
+        if(error.status == 409){
+          this.feedbackService.openStandardSnackBarTimed("User already added game")
+        }
+      }
+        await this.handleError(error)
+    }
+  }
+
+
+  async removeGameFromUser(gameId: string){
+    try{
+      const url: string = `${this.APIUrl}/RemoveUserGame/${gameId}`
+      await lastValueFrom(this.httpClient.delete(url, await this.getHttpOptions()))
+
+      this.signalUserGameList.set(
+        this.signalUserGameList().filter(item => item.id !== gameId)
+      )    } catch (error) {
       await this.handleError(error)
     }
   }
