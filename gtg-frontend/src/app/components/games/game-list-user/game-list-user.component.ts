@@ -2,17 +2,15 @@ import {Component, Signal} from '@angular/core';
 
 import {IGame} from "../../../models/game";
 import {GameService} from "../game.service";
-import {MatButton, MatMiniFabButton} from '@angular/material/button';
+import {MatMiniFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
 import {FeedbackService} from '../../../shared/feedback.service';
-import {defaultGuid} from '../../../shared/Util/constants';
 import {AddUserGameComponent} from '../add-user-game/add-user-game.component';
 
 @Component({
   selector: 'app-game-list-user',
   imports: [
-    MatButton,
     MatIcon,
     MatMiniFabButton,
     AddUserGameComponent
@@ -34,19 +32,20 @@ export class GameListUserComponent {
   async ngOnInit(): Promise<void>{
     await this.gameService.getUserGamesList()
   }
+  //Todo: may be obsolete. Check and delete
+  // async addGame(){
+  //   const emptyGame :IGame = {
+  //     id: defaultGuid,
+  //     name: "New Game",
+  //     playTime: 1,
+  //     minPlayerNumber: 1,
+  //     maxPlayerNumber: 1,
+  //     minAge: 1,
+  //     yearPublished: 2020
+  //   };
+  //   await this.gameService.addGame(emptyGame)
+  // }
 
-  async addGame(){
-    const emptyGame :IGame = {
-      id: defaultGuid,
-      name: "New Game",
-      playTime: 1,
-      minPlayerNumber: 1,
-      maxPlayerNumber: 1,
-      minAge: 1,
-      yearPublished: 2020
-    };
-    await this.gameService.addGame(emptyGame)
-  }
   async removeGameFromUser(id: string) {
     const confirmed = await this.feedbackService.openOkCancelDialog("Remove Game?",
       "Are you sure you want to remove the selected Game?",

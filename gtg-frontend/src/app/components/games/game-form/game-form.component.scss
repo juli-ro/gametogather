@@ -1,0 +1,23 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.game-detail-lower-buttons {
+  display: flex;
+  justify-content: end;
+}
+
+.game-detail-back-btn {
+  margin-left: 20px;
+}
+
+.game-detail-header-content {
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    align-self: center;
+  }
+}

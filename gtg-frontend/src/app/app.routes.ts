@@ -13,6 +13,7 @@ import {UserSettingsComponent} from './components/users/user-settings/user-setti
 import {authGuard} from './shared/Util/auth-guard';
 import {adminGuard} from './shared/Util/admin-guard';
 import {AddUserGameComponent} from './components/games/add-user-game/add-user-game.component';
+import {AddCatalogGameComponent} from './components/games/add-catalog-game/add-catalog-game.component';
 
 export const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -24,6 +25,7 @@ export const routes: Routes = [
   {path: "game-detail/:id", component: GameDetailComponent, canActivate:[authGuard]},
   {path: "group", component: GroupListComponent, canActivate:[authGuard]},
   {path: "group-detail/:id", component: GroupDetailComponent, canActivate:[authGuard]},
+  {path: "add-catalog-game", component: AddCatalogGameComponent, canActivate:[authGuard]},
   {path: "user-list", component: UserListComponent, canActivate:[authGuard, adminGuard]},
   {path: "user-detail/:id", component: UserDetailComponent, canActivate:[authGuard, adminGuard]},
   {path: "user-settings", component: UserSettingsComponent, canActivate:[authGuard]},

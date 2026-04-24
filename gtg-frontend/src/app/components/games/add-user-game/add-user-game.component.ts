@@ -7,7 +7,7 @@ import {AsyncPipe} from '@angular/common';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {GameService} from '../game.service';
 import {IGame} from '../../../models/game';
-import {MatButton, MatButtonModule, MatFabButton} from '@angular/material/button';
+import {MatFabButton} from '@angular/material/button';
 import {Router} from '@angular/router';
 
 @Component({
@@ -19,8 +19,6 @@ import {Router} from '@angular/router';
     MatAutocompleteModule,
     ReactiveFormsModule,
     AsyncPipe,
-    MatButtonModule,
-    MatButton,
     MatFabButton,
   ],
   templateUrl: './add-user-game.component.html',
@@ -36,8 +34,7 @@ export class AddUserGameComponent {
   options: Signal<IGame[]> = this.gameService.publicSignalList
   selectedItem: IGame | null = null
 
-  async constructor() {
-    await this.gameService.getList()
+  constructor() {
     this.filteredOptions = this.gameSearchControl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
@@ -50,9 +47,9 @@ export class AddUserGameComponent {
     )
   }
 
-  // async ngOnInit() {
-  //   await this.gameService.getList()
-  // }
+  async ngOnInit() {
+    await this.gameService.getList()
+  }
 
   private filter(value: string): IGame[] {
     const filterValue = value.toLowerCase();
@@ -82,7 +79,7 @@ export class AddUserGameComponent {
     }
   }
 
-  protected addGameToCatalog(){
-    this.router.navigateByUrl("/game-detail")
+  protected async addGameToCatalog(){
+    await this.router.navigateByUrl("/add-catalog-game")
   }
 }

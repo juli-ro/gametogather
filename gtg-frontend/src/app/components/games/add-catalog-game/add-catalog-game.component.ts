@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {IGame} from '../../../models/game';
 import {GameService} from '../game.service';
-import {Location} from '@angular/common';
 import {GameFormComponent} from '../game-form/game-form.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-catalog-game',
@@ -15,10 +15,10 @@ import {GameFormComponent} from '../game-form/game-form.component';
 })
 export class AddCatalogGameComponent {
   gameService = inject(GameService)
-  location = inject(Location)
+  router = inject(Router)
 
   async onCreate(newGame: IGame) {
     await this.gameService.addGame(newGame);
-    location.back()
+    await this.router.navigateByUrl("/game")
   }
 }
