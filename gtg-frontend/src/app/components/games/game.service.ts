@@ -66,7 +66,6 @@ export class GameService extends ApiDataService<IGame> {
       this.signalList.set(
         [...this.signalList(), data]
       )
-      await this.router.navigateByUrl(`game-detail/${data.id}`)
     } catch (error) {
       await this.handleError(error)
     }

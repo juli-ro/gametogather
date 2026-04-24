@@ -1,0 +1,68 @@
+<mat-card>
+  <mat-card-header>
+
+  </mat-card-header>
+  <mat-card-content>
+    <div class="game-detail-header-content">
+
+      <h2>Game</h2>
+    </div>
+    <form [formGroup]="gameForm" (submit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput
+               placeholder="Name"
+               formControlName="name"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Min. Player Number</mat-label>
+        <input matInput
+               type="number"
+               placeholder="min"
+               formControlName="minPlayerNumber"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Max. Player Number</mat-label>
+        <input matInput
+               type="number"
+               placeholder="max"
+               formControlName="maxPlayerNumber"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Play time</mat-label>
+        <input matInput
+               type="number"
+               placeholder="Play Time"
+               formControlName="playTime"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Minimum Age</mat-label>
+        <input matInput
+               type="number"
+               placeholder="Minimum Age"
+               formControlName="minAge"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Year Published</mat-label>
+        <input matInput
+               type="number"
+               placeholder="Year Published"
+               formControlName="yearPublished"/>
+      </mat-form-field>
+      <div class="game-detail-lower-buttons">
+
+        <button mat-raised-button
+                type="submit"
+                color="primary">
+          save
+        </button>
+        <!--        <button mat-raised-button-->
+        <!--                class="game-detail-back-btn"-->
+        <!--                type="reset"-->
+        <!--                color="secondary">-->
+        <!--          back-->
+        <!--        </button>-->
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

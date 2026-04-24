@@ -3,3 +3,11 @@
   flex-direction: row;
   justify-content: flex-start;
 }
+
+.autocomplete-input {
+  width: 100%;
+
+  mat-form-field {
+    width: 100%;
+  }
+}

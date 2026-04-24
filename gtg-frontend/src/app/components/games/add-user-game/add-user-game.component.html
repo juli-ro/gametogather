@@ -1,28 +1,38 @@
+<div class="add-user-game-container">
 
-<p>
-  chosen game: {{selectedItem?.name || 'empty'}}
-</p>
-<div class="autocomplete-group">
+  <p>
+    chosen game: {{ selectedItem?.name || 'empty' }}
+  </p>
+  <div class="autocomplete-group">
 
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <mat-label>Game</mat-label>
-    <input type="text"
-           placeholder="Pick one"
-           aria-label="Game"
-           matInput
-           [formControl]="gameSearchControl"
-           [matAutocomplete]="auto"
-    (input)="onInputChange()">
-    <mat-autocomplete autoActiveFirstOption
-                      #auto="matAutocomplete"
-                      [displayWith]="displayFn"
-                      (optionSelected)="onOptionSelected($event)">
-      @for (option of filteredOptions | async; track option.id) {
-        <mat-option [value]="option">{{option.name}}</mat-option>
-      }
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
-<button type="button" [disabled]="selectedItem == null" mat-raised-button (click)="addGameToUser()" >add game</button>
+    <div class="autocomplete-input">
+
+      <form>
+        <mat-form-field>
+          <mat-label>Game</mat-label>
+          <input type="text"
+                 placeholder="Pick one"
+                 aria-label="Game"
+                 matInput
+                 [formControl]="gameSearchControl"
+                 [matAutocomplete]="auto"
+                 (input)="onInputChange()">
+          <mat-autocomplete autoActiveFirstOption=""
+                            #auto="matAutocomplete"
+                            [displayWith]="displayFn"
+                            (optionSelected)="onOptionSelected($event)">
+            @for (option of filteredOptions | async; track option.id) {
+              <mat-option [value]="option">{{ option.name }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    <button type="button" [disabled]="selectedItem == null" mat-fab extended="" (click)="addGameToUser()">
+      Add game to user's games
+    </button>
+    <button type="button" mat-fab extended="" (click)="addGameToCatalog()">
+      Add game to Catalog
+    </button>
+  </div>
 </div>
