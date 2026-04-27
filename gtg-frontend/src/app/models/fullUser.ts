@@ -1,7 +1,6 @@
-import {ILookupBase} from './lookupBase';
+import { ILookupBase } from "./lookupBase";
 
-
-export interface IFullUser extends ILookupBase{
-  email: string,
-  roleName: string,
+export interface IFullUser extends ILookupBase {
+	email: string;
+	roleName: string;
 }

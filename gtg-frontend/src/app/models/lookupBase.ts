@@ -1,5 +1,5 @@
-import {IModelBase} from './modelBase';
+import { IModelBase } from "./modelBase";
 
-export interface ILookupBase extends IModelBase{
-  name: string;
+export interface ILookupBase extends IModelBase {
+	name: string;
 }

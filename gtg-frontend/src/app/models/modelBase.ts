@@ -1,5 +1,3 @@
-
-
 export interface IModelBase {
-  id: string;
+	id: string;
 }

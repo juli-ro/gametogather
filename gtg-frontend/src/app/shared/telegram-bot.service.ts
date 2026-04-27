@@ -1,23 +1,22 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: "root" })
 export class TelegramBotService {
-  private readonly APIUrl = environment.apiBaseUrl + "Notification";
+	private httpClient = inject(HttpClient);
 
-  constructor(private http: HttpClient) {
-  }
+	private readonly APIUrl = environment.apiBaseUrl + "Notification";
 
-  sendGroupBroadCast(message: string, groupId: string) {
-
-    return this.http.post(this.APIUrl, {
-      message: message,
-      groupId: groupId,
-    }).subscribe({
-      next: res => console.log('Success', res),
-      error: err => console.error('Error', err)
-    });
-  }
-
+	sendGroupBroadCast(message: string, groupId: string) {
+		return this.httpClient
+			.post(this.APIUrl, {
+				message: message,
+				groupId: groupId,
+			})
+			.subscribe({
+				next: (res) => console.log("Success", res),
+				error: (err) => console.error("Error", err),
+			});
+	}
 }

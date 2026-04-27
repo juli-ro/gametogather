@@ -1,7 +1,7 @@
-import {IModelBase} from './modelBase';
+import { IModelBase } from "./modelBase";
 
-export interface IMeetDateSuggestion extends IModelBase{
-  date: Date,
-  isChosenDate: boolean,
-  meetId: string,
+export interface IMeetDateSuggestion extends IModelBase {
+	date: Date;
+	isChosenDate: boolean;
+	meetId: string;
 }

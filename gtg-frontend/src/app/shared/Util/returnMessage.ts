@@ -1,3 +1,3 @@
-export interface IReturnMessage{
-  message: string
+export interface IReturnMessage {
+	message: string;
 }

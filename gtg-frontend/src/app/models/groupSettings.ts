@@ -1,5 +1,5 @@
-import {IModelBase} from './modelBase';
+import { IModelBase } from "./modelBase";
 
-export interface IGroupSettings extends IModelBase{
-  telegramChatIdentification: string
+export interface IGroupSettings extends IModelBase {
+	telegramChatIdentification: string;
 }

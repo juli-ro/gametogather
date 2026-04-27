@@ -1,3 +1,3 @@
 export enum sessionData {
-  selectedGroup = "selectedGroup"
+	selectedGroup = "selectedGroup",
 }

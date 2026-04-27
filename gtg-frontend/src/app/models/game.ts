@@ -1,10 +1,9 @@
-import {IUser} from './user';
-import {ILookupBase} from './lookupBase';
+import { ILookupBase } from "./lookupBase";
 
-export interface IGame extends ILookupBase{
-  minPlayerNumber: number,
-  maxPlayerNumber: number,
-  playTime: number,
-  minAge: number,
-  yearPublished: number,
+export interface IGame extends ILookupBase {
+	minPlayerNumber: number;
+	maxPlayerNumber: number;
+	playTime: number;
+	minAge: number;
+	yearPublished: number;
 }

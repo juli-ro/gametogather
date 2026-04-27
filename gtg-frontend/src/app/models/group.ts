@@ -1,5 +1,3 @@
-import {ILookupBase} from './lookupBase';
+import { ILookupBase } from "./lookupBase";
 
-export interface IGroup extends ILookupBase{
-
-}
+export interface IGroup extends ILookupBase {}
