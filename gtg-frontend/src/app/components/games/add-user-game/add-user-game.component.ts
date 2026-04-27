@@ -42,7 +42,7 @@ export class AddUserGameComponent {
       map(value => {
 
         const name = typeof value === 'string' ? value : value?.name;
-        return name ? this.filter(name) : this.options().slice(0, 50);
+        return name && name.length >= 1 ? this.filter(name) : [];
       })
     )
   }
