@@ -32,19 +32,6 @@ export class GameListUserComponent {
   async ngOnInit(): Promise<void>{
     await this.gameService.getUserGamesList()
   }
-  //Todo: may be obsolete. Check and delete
-  // async addGame(){
-  //   const emptyGame :IGame = {
-  //     id: defaultGuid,
-  //     name: "New Game",
-  //     playTime: 1,
-  //     minPlayerNumber: 1,
-  //     maxPlayerNumber: 1,
-  //     minAge: 1,
-  //     yearPublished: 2020
-  //   };
-  //   await this.gameService.addGame(emptyGame)
-  // }
 
   async removeGameFromUser(id: string) {
     const confirmed = await this.feedbackService.openOkCancelDialog("Remove Game?",
@@ -56,10 +43,6 @@ export class GameListUserComponent {
     else{
       return
     }
-  }
-
-  async editGame(gameId: string) {
-    await this.router.navigateByUrl(`game-detail/${gameId}`)
   }
 }
 

@@ -82,7 +82,7 @@ public class GameController : BaseController<Game, GameDto>
     
     [HttpPut]
     public override async Task<IActionResult> UpdateItem([FromBody]GameDto? itemDto)
-    {
+        {
         if (itemDto == null)
         {
             return BadRequest();
@@ -95,7 +95,9 @@ public class GameController : BaseController<Game, GameDto>
         Game? item = _mapper.Map<Game>(itemDto);
         _dbSet.Update(item);
         await _context.SaveChangesAsync();
-        return Ok(itemDto);
+        GameDto resultDto = _mapper.Map<GameDto>(item);
+        
+        return Ok(resultDto);
     }
 
 
