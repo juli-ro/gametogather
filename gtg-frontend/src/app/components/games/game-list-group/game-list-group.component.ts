@@ -7,6 +7,7 @@ import { MatOption, MatSelect } from "@angular/material/select";
 import { IGroup } from "../../../models/group";
 import { GroupService } from "../../../shared/group.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { UserService } from "../../../shared/user.service";
 
 @Component({
 	selector: "app-game-list-group",
@@ -18,6 +19,7 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 export class GameListGroupComponent implements OnInit {
 	private gameService = inject(GameService);
 	private groupService = inject(GroupService);
+	private userService = inject(UserService);
 
 	groupGameList: Signal<IGame[]>;
 	selectedGroup: Signal<IGroup | null>;
@@ -54,5 +56,8 @@ export class GameListGroupComponent implements OnInit {
 		if (this.selectedGroup() != null) {
 			await this.gameService.getGroupGameList(this.selectedGroup()?.id as string);
 		}
+	}
+
+	showGameUsers(game: IGame) {
 	}
 }

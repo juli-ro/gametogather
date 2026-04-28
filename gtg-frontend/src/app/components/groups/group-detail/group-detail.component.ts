@@ -45,7 +45,7 @@ export class GroupDetailComponent implements OnInit {
 			const id = String(this.route.snapshot.paramMap.get("id"));
 			if (id) {
 				await this.groupService.getItemById(id);
-				await this.groupService.getUserSetting(id);
+				await this.groupService.getGroupSettings(id);
 			}
 			const group = this.group();
 			if (group) {

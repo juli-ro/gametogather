@@ -18,7 +18,7 @@ export class VoteService extends ApiDataService<IMeetUserVote> {
 
 	async getMeetingVotes(meetId: string): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IMeetUserVote[]>(`${this.APIUrl}/MeetingVotes/${meetId}`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IMeetUserVote[]>(`${this.APIUrl}/MeetingVotes/${meetId}`));
 			this.signalList.set(data);
 		} catch (error) {
 			await this.handleError(error);

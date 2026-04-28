@@ -54,7 +54,7 @@ export class MeetService extends ApiDataService<IMeet> {
 
 	async getGroupMeetsList(groupId: string): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IMeet[]>(`${this.APIUrl}/GroupMeets/${groupId}`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IMeet[]>(`${this.APIUrl}/GroupMeets/${groupId}`));
 			this.signalList.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -63,7 +63,7 @@ export class MeetService extends ApiDataService<IMeet> {
 
 	async getUserMeetsList(): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IMeet[]>(`${this.APIUrl}/UserMeets`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IMeet[]>(`${this.APIUrl}/UserMeets`));
 			this.signalList.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -73,7 +73,7 @@ export class MeetService extends ApiDataService<IMeet> {
 	async addDateSuggestion(newDateSuggestion: IMeetDateSuggestion) {
 		try {
 			const data = await lastValueFrom(
-				this.httpClient.post<IMeetDateSuggestion>(`${this.APIUrl}/AddDate`, newDateSuggestion, await this.getHttpOptions())
+				this.httpClient.post<IMeetDateSuggestion>(`${this.APIUrl}/AddDate`, newDateSuggestion)
 			);
 
 			this.signalItem.update((meet) => {
@@ -95,7 +95,7 @@ export class MeetService extends ApiDataService<IMeet> {
 
 	async createNewGroupMeeting(group: IGroup) {
 		try {
-			const data = await lastValueFrom(this.httpClient.post<string>(`${this.APIUrl}/CreateGroupMeet`, group, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.post<string>(`${this.APIUrl}/CreateGroupMeet`, group));
 			if (data) {
 				return data;
 			} else return "";
@@ -111,7 +111,7 @@ export class MeetService extends ApiDataService<IMeet> {
 		}
 		try {
 			const data = await lastValueFrom(
-				this.httpClient.get<IMeetUser>(`${this.APIUrl}/GetCurrentMeetUser/${meeting.id}`, await this.getHttpOptions())
+				this.httpClient.get<IMeetUser>(`${this.APIUrl}/GetCurrentMeetUser/${meeting.id}`)
 			);
 
 			if (data) {
@@ -124,7 +124,7 @@ export class MeetService extends ApiDataService<IMeet> {
 
 	async selectDateSuggestion(date: IMeetDateSuggestion) {
 		try {
-			const data = await lastValueFrom(this.httpClient.put<IMeetDateSuggestion>(`${this.APIUrl}/SelectDate`, date, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.put<IMeetDateSuggestion>(`${this.APIUrl}/SelectDate`, date));
 			if (data) {
 				this.signalItem.update((meet) => {
 					if (!meet) return meet;
@@ -143,7 +143,7 @@ export class MeetService extends ApiDataService<IMeet> {
 
 	async updateMeeting(meeting: IMeet) {
 		try {
-			const data = await lastValueFrom(this.httpClient.put<IMeet>(`${this.APIUrl}`, meeting, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.put<IMeet>(`${this.APIUrl}`, meeting));
 			if (data) {
 				this.replaceListItem(data.id, data);
 				this.feedbackService.openStandardSnackBarTimed("Meeting updated");

@@ -30,7 +30,7 @@ export class GameService extends ApiDataService<IGame> {
 
 	async getUserGamesList(): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IGame[]>(`${this.APIUrl}/UserGames`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IGame[]>(`${this.APIUrl}/UserGames`));
 			this.signalUserGameList.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -39,7 +39,7 @@ export class GameService extends ApiDataService<IGame> {
 
 	async getGroupGameList(groupId: string) {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IGame[]>(`${this.APIUrl}/GroupGames/${groupId}`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IGame[]>(`${this.APIUrl}/GroupGames/${groupId}`));
 			this.signalGroupGameList.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -48,7 +48,7 @@ export class GameService extends ApiDataService<IGame> {
 
 	async addGame(gameToAdd: IGame) {
 		try {
-			const data = await lastValueFrom(this.httpClient.post<IGame>(this.APIUrl, gameToAdd, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.post<IGame>(this.APIUrl, gameToAdd));
 			this.signalList.set([...this.signalList(), data]);
 		} catch (error) {
 			await this.handleError(error);
@@ -57,7 +57,7 @@ export class GameService extends ApiDataService<IGame> {
 
 	async addGameToUser(gameToAdd: IGame) {
 		try {
-			const data = await lastValueFrom(this.httpClient.post<IGame>(`${this.APIUrl}/AddUserGame`, gameToAdd, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.post<IGame>(`${this.APIUrl}/AddUserGame`, gameToAdd));
 			if (data) {
 				this.signalUserGameList.set([...this.signalUserGameList(), data]);
 			}
@@ -74,7 +74,7 @@ export class GameService extends ApiDataService<IGame> {
 	async removeGameFromUser(gameId: string) {
 		try {
 			const url = `${this.APIUrl}/RemoveUserGame/${gameId}`;
-			await lastValueFrom(this.httpClient.delete(url, await this.getHttpOptions()));
+			await lastValueFrom(this.httpClient.delete(url));
 
 			this.signalUserGameList.set(this.signalUserGameList().filter((item) => item.id !== gameId));
 		} catch (error) {

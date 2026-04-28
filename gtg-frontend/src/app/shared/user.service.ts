@@ -21,7 +21,7 @@ export class UserService extends ApiDataService<IFullUser> {
 
 	async getAllAdminUsers(): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IFullUser[]>(`${this.APIUrl}/adminUser`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IFullUser[]>(`${this.APIUrl}/adminUser`));
 			this.signalList.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -30,7 +30,7 @@ export class UserService extends ApiDataService<IFullUser> {
 
 	async updateFullUser(item: IFullUser) {
 		try {
-			const data = await lastValueFrom(this.httpClient.put<IFullUser>(`${this.APIUrl}/adminUser`, item, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.put<IFullUser>(`${this.APIUrl}/adminUser`, item));
 			if (data) {
 				this.replaceListItem(data.id, data);
 			}
@@ -41,7 +41,7 @@ export class UserService extends ApiDataService<IFullUser> {
 
 	async getAdminUserById(userId: string): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IFullUser>(`${this.APIUrl}/adminUser/${userId}`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IFullUser>(`${this.APIUrl}/adminUser/${userId}`));
 			this.signalItem.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -51,7 +51,7 @@ export class UserService extends ApiDataService<IFullUser> {
 	async createFullUser(newUser: IFullUser) {
 		try {
 			if (newUser) {
-				const data = await lastValueFrom(this.httpClient.post<IReturnMessage>(`${this.APIUrl}/adminUser`, newUser, await this.getHttpOptions()));
+				const data = await lastValueFrom(this.httpClient.post<IReturnMessage>(`${this.APIUrl}/adminUser`, newUser));
 				if (data) {
 					this.feedbackService.openStandardSnackBar(`New password: ${data.message}`);
 				}
@@ -63,7 +63,7 @@ export class UserService extends ApiDataService<IFullUser> {
 
 	async changePassword(request: IPasswordChangeRequest) {
 		try {
-			await lastValueFrom(this.httpClient.post(`${this.APIUrl}/changePassword`, request, await this.getHttpOptions()));
+			await lastValueFrom(this.httpClient.post(`${this.APIUrl}/changePassword`, request));
 			this.feedbackService.openStandardSnackBarTimed("PasswordChanged");
 		} catch (error) {
 			await this.handleError(error);

@@ -1,8 +1,9 @@
 import { Injectable, signal, WritableSignal } from "@angular/core";
 import { ApiDataService } from "./api-data.service";
 import { IGroup } from "../models/group";
-import { lastValueFrom } from "rxjs";
+import { lastValueFrom, Observable } from "rxjs";
 import { IGroupSettings } from "../models/groupSettings";
+import { IUser } from "../models/user";
 
 @Injectable({
 	providedIn: "root",
@@ -22,7 +23,7 @@ export class GroupService extends ApiDataService<IGroup> {
 
 	async getUserGroupList(): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IGroup[]>(`${this.APIUrl}/UserGroup`, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<IGroup[]>(`${this.APIUrl}/UserGroup`));
 			this.signalList.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -31,7 +32,7 @@ export class GroupService extends ApiDataService<IGroup> {
 
 	async createNewGroup() {
 		try {
-			const data = await lastValueFrom(this.httpClient.post<string>(`${this.APIUrl}/UserGroup`, {}, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.post<string>(`${this.APIUrl}/UserGroup`, {}));
 			if (data) {
 				return data;
 			} else return "";
@@ -43,10 +44,10 @@ export class GroupService extends ApiDataService<IGroup> {
 		}
 	}
 
-	async getUserSetting(groupId: string) {
+	async getGroupSettings(groupId: string) {
 		try {
 			const data = await lastValueFrom(
-				this.httpClient.get<IGroupSettings>(`${this.APIUrl}/UserGroup/Settings/${groupId}`, await this.getHttpOptions())
+				this.httpClient.get<IGroupSettings>(`${this.APIUrl}/UserGroup/Settings/${groupId}`)
 			);
 			this.signalGroupSettings.set(data);
 		} catch (error) {
@@ -57,7 +58,7 @@ export class GroupService extends ApiDataService<IGroup> {
 	async updateGroupSettings(groupSettings: IGroupSettings) {
 		try {
 			const data = await lastValueFrom(
-				this.httpClient.put<IGroupSettings>(`${this.APIUrl}/GroupSettings`, groupSettings, await this.getHttpOptions())
+				this.httpClient.put<IGroupSettings>(`${this.APIUrl}/GroupSettings`, groupSettings)
 			);
 			if (data) {
 				this.signalGroupSettings.set(data);

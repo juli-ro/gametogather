@@ -29,26 +29,26 @@ export abstract class ApiDataService<T extends IModelBase> {
 	abstract publicSignalItem: Signal<T | null>;
 
 	//Todo: maybe inject this
-	protected async getHttpOptions(extraParams?: Record<string, string>) {
-		const token: string | null = localStorage.getItem(jwtEnum.id_token);
-
-		const headers = new HttpHeaders({
-			Authorization: `Bearer ${token}`,
-			"Content-Type": "application/json",
-		});
-
-		const options: { headers: HttpHeaders; params?: HttpParams } = { headers };
-
-		if (extraParams) {
-			options.params = new HttpParams({ fromObject: extraParams });
-		}
-
-		return options;
-	}
+	// protected getHttpOptions(extraParams?: Record<string, string>) {
+	// 	const token: string | null = localStorage.getItem(jwtEnum.id_token);
+	//
+	// 	const headers = new HttpHeaders({
+	// 		Authorization: `Bearer ${token}`,
+	// 		"Content-Type": "application/json",
+	// 	});
+	//
+	// 	const options: { headers: HttpHeaders; params?: HttpParams } = { headers };
+	//
+	// 	if (extraParams) {
+	// 		options.params = new HttpParams({ fromObject: extraParams });
+	// 	}
+	//
+	// 	return options;
+	// }
 
 	async getList() {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<T[]>(this.APIUrl, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<T[]>(this.APIUrl));
 			this.signalList.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -58,7 +58,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 	async getItemById(id: string) {
 		try {
 			const url = `${this.APIUrl}/${id}`;
-			const data = await lastValueFrom(this.httpClient.get<T>(url, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.get<T>(url));
 			this.signalItem.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -70,7 +70,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 
 	async updateItemInList(item: T) {
 		try {
-			const data = await lastValueFrom(this.httpClient.put<T>(this.APIUrl, item, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.put<T>(this.APIUrl, item));
 			if (data) {
 				debugger;
 				this.replaceListItem(data.id, data);
@@ -82,7 +82,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 
 	async addItem(item: T) {
 		try {
-			const data = await lastValueFrom(this.httpClient.post<T>(this.APIUrl, item, await this.getHttpOptions()));
+			const data = await lastValueFrom(this.httpClient.post<T>(this.APIUrl, item));
 			this.signalList.update((items) => [...items, data]);
 		} catch (error) {
 			await this.handleError(error);
@@ -92,7 +92,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 	async deleteItem(id: string) {
 		try {
 			const url = `${this.APIUrl}/${id}`;
-			await lastValueFrom(this.httpClient.delete(url, await this.getHttpOptions()));
+			await lastValueFrom(this.httpClient.delete(url));
 			//Todo: maybe change the way this works (object can be passed instead of id)
 			this.signalList.set(this.signalList().filter((item) => item.id !== id));
 		} catch (error) {
