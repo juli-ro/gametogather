@@ -46,9 +46,7 @@ export class GroupService extends ApiDataService<IGroup> {
 
 	async getGroupSettings(groupId: string) {
 		try {
-			const data = await lastValueFrom(
-				this.httpClient.get<IGroupSettings>(`${this.APIUrl}/UserGroup/Settings/${groupId}`)
-			);
+			const data = await lastValueFrom(this.httpClient.get<IGroupSettings>(`${this.APIUrl}/UserGroup/Settings/${groupId}`));
 			this.signalGroupSettings.set(data);
 		} catch (error) {
 			await this.handleError(error);
@@ -57,9 +55,7 @@ export class GroupService extends ApiDataService<IGroup> {
 
 	async updateGroupSettings(groupSettings: IGroupSettings) {
 		try {
-			const data = await lastValueFrom(
-				this.httpClient.put<IGroupSettings>(`${this.APIUrl}/GroupSettings`, groupSettings)
-			);
+			const data = await lastValueFrom(this.httpClient.put<IGroupSettings>(`${this.APIUrl}/GroupSettings`, groupSettings));
 			if (data) {
 				this.signalGroupSettings.set(data);
 				this.feedbackService.openStandardSnackBarTimed("Group settings updated");

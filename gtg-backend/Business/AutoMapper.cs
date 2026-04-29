@@ -27,6 +27,14 @@ public class AutoMapper : Profile
         CreateMap<MeetDateSuggestion, MeetDateSuggestionDto>()
             .ReverseMap();
         CreateMap<Group, GroupDto>()
+            .ForMember(dest => dest.GroupUsers, opt => opt.MapFrom(src => src.GroupUsers))
+            .ReverseMap();
+        CreateMap<GroupUser, GroupUserDto>()
+            .ForMember(dest => dest.OwnedGames, opt => opt.MapFrom(src => src.User.UserGames.Select(userGame => userGame.Game)))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Name))
+            .ReverseMap()
+            .ForMember(dest => dest.User, opt => opt.Ignore());
+        CreateMap<Game, GameLookupDto>()
             .ReverseMap();
         CreateMap<MeetUser, MeetUserDto>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Name))

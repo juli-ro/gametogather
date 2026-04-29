@@ -28,9 +28,21 @@ public class GroupController : BaseController<Group, GroupDto>
             return Unauthorized();
         }
         
+        //Todo: old way, maybe remove
+        
+        // List<Group> groupList = await _dbSet
+        //     .Include(group => group.GroupUsers)
+        //     .Where(group => group.GroupUsers.Any(groupUser => groupUser.UserId == new Guid(userId)))
+        //     .ToListAsync();
+        
         List<Group> groupList = await _dbSet
+            .AsNoTracking() 
             .Include(group => group.GroupUsers)
-            .Where(group => group.GroupUsers.Any(groupUser => groupUser.UserId == new Guid(userId)))
+            .ThenInclude(gu => gu.User)
+            .ThenInclude(user => user.UserGames)
+            .ThenInclude(ug => ug.Game)
+            .Where(group => group.GroupUsers.Any(gu => gu.UserId == Guid.Parse(userId)))
+            .AsSplitQuery() 
             .ToListAsync();
         
         List<GroupDto>? groupDtoList = _mapper.Map<List<GroupDto>>(groupList);

@@ -31,7 +31,7 @@
     <!--      No. of players-->
     <!--    </div>-->
     <div>
-      Game owner
+      Game owners
     </div>
   </div>
   <hr>
@@ -47,7 +47,9 @@
       <!--            {{ game.minPlayerNumber }} - {{ game.maxPlayerNumber }}-->
       <!--          </div>-->
       <div class="basic-item-column">
-        todo: add users who own this game
+        <p>
+          {{game | gameOwners : selectedGroup()?.groupUsers}}
+        </p>
       </div>
     </div>
   }

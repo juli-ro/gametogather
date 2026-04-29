@@ -68,11 +68,8 @@ export class UserDashboardComponent implements OnInit {
 		}
 	}
 
-	// groupChanged(chosenGroup: ILookupBase) {
-	//
-	// }
 	async groupChanged(group: ILookupBase) {
-		this.groupService.setSelectedItem(group);
+		this.groupService.setSelectedItem(group as IGroup);
 		await this.gameService.getGroupGameList(group.id);
 		await this.meetService.getGroupMeetsList(group.id);
 	}

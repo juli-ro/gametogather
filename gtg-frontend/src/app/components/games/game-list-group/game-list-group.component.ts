@@ -7,11 +7,11 @@ import { MatOption, MatSelect } from "@angular/material/select";
 import { IGroup } from "../../../models/group";
 import { GroupService } from "../../../shared/group.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { UserService } from "../../../shared/user.service";
+import { GameOwnersPipe } from "../../../shared/Pipes/game-owners.pipe";
 
 @Component({
 	selector: "app-game-list-group",
-	imports: [MatLabel, MatFormField, MatSelect, MatOption, ReactiveFormsModule],
+	imports: [MatLabel, MatFormField, MatSelect, MatOption, ReactiveFormsModule, GameOwnersPipe],
 	templateUrl: "./game-list-group.component.html",
 	standalone: true,
 	styleUrl: "./game-list-group.component.scss",
@@ -19,7 +19,6 @@ import { UserService } from "../../../shared/user.service";
 export class GameListGroupComponent implements OnInit {
 	private gameService = inject(GameService);
 	private groupService = inject(GroupService);
-	private userService = inject(UserService);
 
 	groupGameList: Signal<IGame[]>;
 	selectedGroup: Signal<IGroup | null>;
@@ -56,8 +55,5 @@ export class GameListGroupComponent implements OnInit {
 		if (this.selectedGroup() != null) {
 			await this.gameService.getGroupGameList(this.selectedGroup()?.id as string);
 		}
-	}
-
-	showGameUsers(game: IGame) {
 	}
 }
