@@ -65,6 +65,7 @@ export class AuthService {
 	unsetSession() {
 		this.isAdminSignal.set(false);
 		this.isAuthenticatedSignal.set(false);
+		window.location.href = "/login";
 	}
 
 	//Todo: probably obsolete
@@ -93,7 +94,7 @@ export class AuthService {
 	}
 
 	async logout() {
-		await localStorage.removeItem(jwtEnum.id_token);
+		localStorage.removeItem(jwtEnum.id_token);
 		this.unsetSession();
 	}
 }

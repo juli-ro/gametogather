@@ -167,6 +167,24 @@ public class MeetController : BaseController<Meet, MeetDto>
         return Ok(dateSuggestionDto);
     }
 
+    [HttpPatch("UpdateParticipant/{meetUserId}")]
+    public async Task<IActionResult> UpdateParticipant([FromRoute] Guid meetUserId, [FromBody] bool isParticipating)
+    {
+        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+        
+        var meetUser = await _context.MeetUsers.FirstOrDefaultAsync(mu => mu.Id == meetUserId);
+        if(meetUser == null) return NotFound();
+        
+        meetUser.IsParticipating = isParticipating;
+        await _context.SaveChangesAsync();
+        
+        return Ok(isParticipating);
+    }
+
     // [HttpPut("UpdateMeeting")]
     // public override async Task<IActionResult> UpdateItem([FromBody]MeetDto? itemDto)
     // {

@@ -3,6 +3,7 @@ namespace gtg_backend.Models;
 public class MeetUser : ModelBase
 {
     public bool IsHost { get; set; }
+    public bool IsParticipating { get; set; }
     public Guid UserId { get; set; }
     public Guid MeetId { get; set; }
     

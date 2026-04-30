@@ -27,7 +27,9 @@ export class MeetService extends ApiDataService<IMeet> {
 		const yesterday = new Date(now);
 		yesterday.setDate(now.getDate() - 1);
 
-		return this.signalList().filter((meeting) => meeting.meetDateSuggestions.some((s) => s.isChosenDate && new Date(s.date) < yesterday));
+		return this.signalList().filter((meeting) =>
+			meeting.meetDateSuggestions.some((s) => s.isChosenDate && new Date(s.date) < yesterday)
+		);
 	});
 
 	readonly futureMeetings = computed(() => {
@@ -38,7 +40,9 @@ export class MeetService extends ApiDataService<IMeet> {
 		yesterday.setDate(now.getDate() - 1);
 
 		return this.signalList().filter((meeting) => {
-			const hasFutureChosenDate = meeting.meetDateSuggestions.some((s) => s.isChosenDate && new Date(s.date) >= yesterday);
+			const hasFutureChosenDate = meeting.meetDateSuggestions.some(
+				(s) => s.isChosenDate && new Date(s.date) >= yesterday
+			);
 
 			const hasNoChosenDate = meeting.meetDateSuggestions.every((s) => !s.isChosenDate);
 
@@ -54,10 +58,12 @@ export class MeetService extends ApiDataService<IMeet> {
 
 	async getGroupMeetsList(groupId: string): Promise<void> {
 		try {
-			const data = await lastValueFrom(this.httpClient.get<IMeet[]>(`${this.APIUrl}/GroupMeets/${groupId}`));
+			const data = await lastValueFrom(
+				this.httpClient.get<IMeet[]>(`${this.APIUrl}/GroupMeets/${groupId}`)
+			);
 			this.signalList.set(data);
 		} catch (error) {
-			await this.handleError(error);
+			this.handleError(error);
 		}
 	}
 
@@ -66,7 +72,7 @@ export class MeetService extends ApiDataService<IMeet> {
 			const data = await lastValueFrom(this.httpClient.get<IMeet[]>(`${this.APIUrl}/UserMeets`));
 			this.signalList.set(data);
 		} catch (error) {
-			await this.handleError(error);
+			this.handleError(error);
 		}
 	}
 
@@ -80,7 +86,9 @@ export class MeetService extends ApiDataService<IMeet> {
 				if (!meet) return meet;
 				return {
 					...meet,
-					meetDateSuggestions: [...meet.meetDateSuggestions, data].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
+					meetDateSuggestions: [...meet.meetDateSuggestions, data].sort(
+						(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+					),
 				};
 			});
 		} catch (error) {
@@ -89,18 +97,20 @@ export class MeetService extends ApiDataService<IMeet> {
 					console.log("date already exists");
 				}
 			}
-			await this.handleError(error);
+			this.handleError(error);
 		}
 	}
 
 	async createNewGroupMeeting(group: IGroup) {
 		try {
-			const data = await lastValueFrom(this.httpClient.post<string>(`${this.APIUrl}/CreateGroupMeet`, group));
+			const data = await lastValueFrom(
+				this.httpClient.post<string>(`${this.APIUrl}/CreateGroupMeet`, group)
+			);
 			if (data) {
 				return data;
 			} else return "";
 		} catch (error) {
-			await this.handleError(error);
+			this.handleError(error);
 			return null;
 		}
 	}
@@ -118,26 +128,31 @@ export class MeetService extends ApiDataService<IMeet> {
 				this.signalCurrentMeetUser.set(data);
 			}
 		} catch (e) {
-			await this.handleError(e);
+			this.handleError(e);
 		}
 	}
 
 	async selectDateSuggestion(date: IMeetDateSuggestion) {
 		try {
-			const data = await lastValueFrom(this.httpClient.put<IMeetDateSuggestion>(`${this.APIUrl}/SelectDate`, date));
+			const data = await lastValueFrom(
+				this.httpClient.put<IMeetDateSuggestion>(`${this.APIUrl}/SelectDate`, date)
+			);
 			if (data) {
 				this.signalItem.update((meet) => {
 					if (!meet) return meet;
 					return {
 						...meet,
-						meetDateSuggestions: updateItemInArray(meet.meetDateSuggestions, data.id, data, (item) => item.id).sort(
-							(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-						),
+						meetDateSuggestions: updateItemInArray(
+							meet.meetDateSuggestions,
+							data.id,
+							data,
+							(item) => item.id
+						).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
 					};
 				});
 			}
 		} catch (e) {
-			await this.handleError(e);
+			this.handleError(e);
 		}
 	}
 
@@ -149,7 +164,30 @@ export class MeetService extends ApiDataService<IMeet> {
 				this.feedbackService.openStandardSnackBarTimed("Meeting updated");
 			}
 		} catch (e) {
-			await this.handleError(e);
+			this.handleError(e);
 		}
+	}
+
+	updateParticipant(meetUserId: string, isParticipating: boolean) {
+		this.httpClient
+			.patch(`${this.APIUrl}/UpdateParticipant/${meetUserId}`, isParticipating)
+			.subscribe({
+				next: (_) => {
+					this.signalItem.update((currentMeeting) => {
+						if (!currentMeeting) return null;
+						return {
+							...currentMeeting,
+							meetUsers: currentMeeting.meetUsers.map((meetUser) =>
+								meetUser.id == meetUserId
+									? { ...meetUser, isParticipating: isParticipating }
+									: meetUser
+							),
+						};
+					});
+				},
+				error: (err) => {
+					this.handleError(err);
+				},
+			});
 	}
 }

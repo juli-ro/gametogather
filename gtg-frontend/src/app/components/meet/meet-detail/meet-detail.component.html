@@ -136,6 +136,14 @@
   </div>
 
   <div>
+    <app-participant-overview [meetUsers]="meeting()?.meetUsers"
+                              [currentUser]="currentMeetUser() ?? undefined"
+                              [isUpdating]="isUpdatingParticipant()"
+                              (participationChange)="onParticipationChanged($event)"
+    />
+  </div>
+
+  <div>
     <h3>Available games for group</h3>
     @for (entry of viewGameVotes(); track entry.game.id) {
       <div class="basic-item-row" (click)="AddVoteForUser(setVoteEnum(voteItemTypeEnum.Game), entry.game.id)">

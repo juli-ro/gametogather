@@ -294,6 +294,9 @@ public class GameDbContext(DbContextOptions options) : DbContext(options)
         modelBuilder.Entity<User>()
             .HasKey(user => user.Id);
         modelBuilder.Entity<User>()
+            .HasIndex(user => user.Name)
+            .IsUnique();
+        modelBuilder.Entity<User>()
             .HasOne<Role>(user => user.Role)
             .WithMany(role => role.Users)
             .HasForeignKey(user => user.RoleId);

@@ -3,7 +3,13 @@ import { ActivatedRoute } from "@angular/router";
 import { MeetService } from "../../../shared/meet.service";
 import { IMeet } from "../../../models/meet";
 import { DatePipe, Location } from "@angular/common";
-import { MatDatepickerToggle, MatDateRangeInput, MatDateRangePicker, MatEndDate, MatStartDate } from "@angular/material/datepicker";
+import {
+	MatDatepickerToggle,
+	MatDateRangeInput,
+	MatDateRangePicker,
+	MatEndDate,
+	MatStartDate,
+} from "@angular/material/datepicker";
 import { MatFormField, MatFormFieldModule, MatHint, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from "@angular/material/core";
@@ -20,11 +26,16 @@ import { voteItemTypeEnum } from "../../../shared/voteItemTypeEnum";
 import { IMeetUser } from "../../../models/meetUser";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { bPoint768px, defaultGuid } from "../../../shared/Util/constants";
-import { MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from "@angular/material/expansion";
+import {
+	MatExpansionPanel,
+	MatExpansionPanelHeader,
+	MatExpansionPanelTitle,
+} from "@angular/material/expansion";
 import { MatIcon } from "@angular/material/icon";
 import { GroupService } from "../../../shared/group.service";
 import { IGroup } from "../../../models/group";
 import { TelegramBotService } from "../../../shared/telegram-bot.service";
+import { ParticipantOverviewComponent } from "../participant-overview/participant-overview.component";
 
 @Component({
 	selector: "app-meet-detail",
@@ -47,6 +58,7 @@ import { TelegramBotService } from "../../../shared/telegram-bot.service";
 		MatExpansionPanelTitle,
 		MatIconButton,
 		MatIcon,
+		ParticipantOverviewComponent,
 	],
 	providers: [provideNativeDateAdapter(), { provide: MAT_DATE_LOCALE, useValue: "de-DE" }],
 	templateUrl: "./meet-detail.component.html",
@@ -54,11 +66,22 @@ import { TelegramBotService } from "../../../shared/telegram-bot.service";
 	standalone: true,
 })
 export class MeetDetailComponent implements OnInit {
+	private route = inject(ActivatedRoute);
+	private meetService = inject(MeetService);
+	private voteService = inject(VoteService);
+	private gameService = inject(GameService);
+	private feedbackService = inject(FeedbackService);
+	private groupService = inject(GroupService);
+	private location = inject(Location);
+	private telegramService = inject(TelegramBotService);
+	private breakpointObserver = inject(BreakpointObserver);
+
 	meeting: Signal<IMeet | null>;
 	groupGameList: Signal<IGame[]>;
 	meetVotes: Signal<IMeetUserVote[]>;
 	currentMeetUser: Signal<IMeetUser | null>;
 	meetingGroup: Signal<IGroup | null>;
+	isUpdatingParticipant = signal(false);
 	protected readonly voteItemTypeEnum = voteItemTypeEnum;
 	screenSizeS = false;
 	readonly dateSuggestionPanelOpenState = signal(false);
@@ -75,7 +98,9 @@ export class MeetDetailComponent implements OnInit {
 	viewGameVotes = computed(() => {
 		return this.groupGameList().map((game) => ({
 			game,
-			votes: this.meetVotes().filter((v) => v.votableItemType === voteItemTypeEnum.Game && v.votableItemId === game.id),
+			votes: this.meetVotes().filter(
+				(v) => v.votableItemType === voteItemTypeEnum.Game && v.votableItemId === game.id
+			),
 		}));
 	});
 
@@ -85,7 +110,9 @@ export class MeetDetailComponent implements OnInit {
 			currentMeeting?.meetDateSuggestions
 				.map((date) => ({
 					date,
-					votes: this.meetVotes().filter((v) => v.votableItemType === voteItemTypeEnum.Date && v.votableItemId === date.id),
+					votes: this.meetVotes().filter(
+						(v) => v.votableItemType === voteItemTypeEnum.Date && v.votableItemId === date.id
+					),
 				}))
 				.sort((a, b) => {
 					return (b.date.isChosenDate ? 1 : 0) - (a.date.isChosenDate ? 1 : 0);
@@ -110,16 +137,6 @@ export class MeetDetailComponent implements OnInit {
 		}
 		return null;
 	});
-
-	private route = inject(ActivatedRoute);
-	private meetService = inject(MeetService);
-	private voteService = inject(VoteService);
-	private gameService = inject(GameService);
-	private feedbackService = inject(FeedbackService);
-	private groupService = inject(GroupService);
-	private location = inject(Location);
-	private telegramService = inject(TelegramBotService);
-	private breakpointObserver = inject(BreakpointObserver);
 
 	constructor() {
 		this.meeting = this.meetService.publicSignalItem;
@@ -183,7 +200,11 @@ export class MeetDetailComponent implements OnInit {
 		const meeting = this.meeting();
 		const utCDate = toFullUtCDate(date);
 
-		if (meeting?.meetDateSuggestions.some((x) => toFullUtCDate(new Date(x.date)).getTime() === utCDate.getTime())) {
+		if (
+			meeting?.meetDateSuggestions.some(
+				(x) => toFullUtCDate(new Date(x.date)).getTime() === utCDate.getTime()
+			)
+		) {
 			const errorMessage = `date ${toFullUtCDate(new Date(date))} already exists internal`;
 			this.feedbackService.openSnackBarTimed(errorMessage, "X", 3000);
 			return;
@@ -223,7 +244,9 @@ export class MeetDetailComponent implements OnInit {
 		const currentMeetUser = this.currentMeetUser();
 		if (currentMeetUser) {
 			if (this.checkIfVoteExists(currentMeetUser, itemId)) {
-				const voteToRemove = this.meetVotes().find((vote) => vote.votableItemId == itemId && vote.meetUser.id == currentMeetUser.id);
+				const voteToRemove = this.meetVotes().find(
+					(vote) => vote.votableItemId == itemId && vote.meetUser.id == currentMeetUser.id
+				);
 				// this.feedbackService.openStandardSnackBarTimed("You've already cast a vote for this item")
 
 				if (voteToRemove) {
@@ -245,8 +268,10 @@ export class MeetDetailComponent implements OnInit {
 		}
 	}
 
-	checkIfVoteExists(currentUser: IMeetUser, itemId: string): boolean {
-		return this.meetVotes().some((x) => x.meetUser.id === currentUser.id && x.votableItemId === itemId);
+	private checkIfVoteExists(currentUser: IMeetUser, itemId: string): boolean {
+		return this.meetVotes().some(
+			(x) => x.meetUser.id === currentUser.id && x.votableItemId === itemId
+		);
 	}
 
 	async updateMeetingName() {
@@ -257,12 +282,23 @@ export class MeetDetailComponent implements OnInit {
 			await this.meetService.updateMeeting(meet);
 			const groupId = meet.groupId;
 			if (groupId) {
-				this.telegramService.sendGroupBroadCast(`Name has been changed to ${newMeetingName}`, groupId);
+				this.telegramService.sendGroupBroadCast(
+					`Name has been changed to ${newMeetingName}`,
+					groupId
+				);
 			}
 		}
 	}
 
 	navigateBack() {
 		this.location.back();
+	}
+
+	protected onParticipationChanged(event: { meetUserId: string; isParticipating: boolean }) {
+		this.isUpdatingParticipant.set(true);
+
+		this.meetService.updateParticipant(event.meetUserId, event.isParticipating);
+
+		this.isUpdatingParticipant.set(false);
 	}
 }

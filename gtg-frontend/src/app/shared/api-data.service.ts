@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal, WritableSignal } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { jwtEnum } from "./jwtEnum";
 import { lastValueFrom, throwError } from "rxjs";
 import { IModelBase } from "../models/modelBase";
@@ -19,7 +19,6 @@ export abstract class ApiDataService<T extends IModelBase> {
 
 	protected readonly APIUrl = environment.apiBaseUrl + this.getResourceUrl();
 
-
 	abstract getResourceUrl(): string;
 
 	protected abstract signalList: WritableSignal<T[]>;
@@ -28,30 +27,12 @@ export abstract class ApiDataService<T extends IModelBase> {
 	abstract publicSignalList: Signal<T[]>;
 	abstract publicSignalItem: Signal<T | null>;
 
-	//Todo: maybe inject this
-	// protected getHttpOptions(extraParams?: Record<string, string>) {
-	// 	const token: string | null = localStorage.getItem(jwtEnum.id_token);
-	//
-	// 	const headers = new HttpHeaders({
-	// 		Authorization: `Bearer ${token}`,
-	// 		"Content-Type": "application/json",
-	// 	});
-	//
-	// 	const options: { headers: HttpHeaders; params?: HttpParams } = { headers };
-	//
-	// 	if (extraParams) {
-	// 		options.params = new HttpParams({ fromObject: extraParams });
-	// 	}
-	//
-	// 	return options;
-	// }
-
 	async getList() {
 		try {
 			const data = await lastValueFrom(this.httpClient.get<T[]>(this.APIUrl));
 			this.signalList.set(data);
 		} catch (error) {
-			await this.handleError(error);
+			this.handleError(error);
 		}
 	}
 
@@ -61,7 +42,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 			const data = await lastValueFrom(this.httpClient.get<T>(url));
 			this.signalItem.set(data);
 		} catch (error) {
-			await this.handleError(error);
+			this.handleError(error);
 			//Todo: this should be handled more centrally (probably in the handleError function
 			this.feedbackService.openSnackBarTimed("item could not be found", "Close", 4000);
 			this.location.back();
@@ -72,11 +53,10 @@ export abstract class ApiDataService<T extends IModelBase> {
 		try {
 			const data = await lastValueFrom(this.httpClient.put<T>(this.APIUrl, item));
 			if (data) {
-				debugger;
 				this.replaceListItem(data.id, data);
 			}
 		} catch (e) {
-			await this.handleError(e);
+			this.handleError(e);
 		}
 	}
 
@@ -85,7 +65,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 			const data = await lastValueFrom(this.httpClient.post<T>(this.APIUrl, item));
 			this.signalList.update((items) => [...items, data]);
 		} catch (error) {
-			await this.handleError(error);
+			this.handleError(error);
 		}
 	}
 
@@ -96,7 +76,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 			//Todo: maybe change the way this works (object can be passed instead of id)
 			this.signalList.set(this.signalList().filter((item) => item.id !== id));
 		} catch (error) {
-			await this.handleError(error);
+			this.handleError(error);
 		}
 	}
 
@@ -115,7 +95,7 @@ export abstract class ApiDataService<T extends IModelBase> {
 		this.signalList.set([]);
 	}
 
-	protected async handleError(err: unknown) {
+	protected handleError(err: unknown) {
 		let errorMessage = "";
 		if (err instanceof HttpErrorResponse) {
 			// in a real world app, we may send the server to some remote logging infrastructure
@@ -123,7 +103,9 @@ export abstract class ApiDataService<T extends IModelBase> {
 			if (err.status == 401) {
 				localStorage.removeItem(jwtEnum.id_token);
 				console.log("not authorized, removed token");
-				await this.router.navigateByUrl("/");
+				this.router.navigateByUrl("/").catch((routingError) => {
+					console.error("Failed to navigate to login:", routingError);
+				});
 			}
 			if (err.error instanceof ErrorEvent) {
 				// A client-side or network error occurred. Handle it accordingly.
@@ -135,6 +117,6 @@ export abstract class ApiDataService<T extends IModelBase> {
 			}
 		}
 		console.error(errorMessage);
-		return throwError(() => errorMessage);
+		return throwError(() => new Error(errorMessage));
 	}
 }

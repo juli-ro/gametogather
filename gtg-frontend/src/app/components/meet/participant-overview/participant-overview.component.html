@@ -1,0 +1,7 @@
+@for(user of meetUsers(); track user.id){
+  <mat-checkbox [checked]=user.isParticipating
+                (click)="toggleParticipation($event, user)"
+                [disabled]="user.id !== currentUser()?.id || isUpdating()">
+  <p>{{user.name}}</p>
+  </mat-checkbox>
+}
