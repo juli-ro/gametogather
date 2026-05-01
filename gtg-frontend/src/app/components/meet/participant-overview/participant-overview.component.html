@@ -1,7 +1,19 @@
-@for(user of meetUsers(); track user.id){
-  <mat-checkbox [checked]=user.isParticipating
-                (click)="toggleParticipation($event, user)"
-                [disabled]="user.id !== currentUser()?.id || isUpdating()">
-  <p>{{user.name}}</p>
-  </mat-checkbox>
-}
+<div class="participant-overview-container">
+  <mat-card>
+    <mat-card-header>
+      Participants
+    </mat-card-header>
+
+    <mat-card-content>
+      @for (user of meetUsers(); track user.id) {
+        <div>
+          <mat-checkbox [checked]=user.isParticipating
+                        (click)="toggleParticipation($event, user)"
+                        [disabled]="user.id !== currentUser()?.id || isUpdating()">
+            <p>{{ user.name }}</p>
+          </mat-checkbox>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

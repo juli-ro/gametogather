@@ -18,17 +18,14 @@
     display: flex;;
     flex-direction: row;
     justify-self: stretch;
-    justify-content: space-between;
+    justify-content: space-around;
 
 
     .back-button {
       margin-bottom: 20px;
       margin-top: 0;
+      max-height: 40px;
       border: solid 1px gray;
-    }
-
-    current-meet-user-info {
-      margin-right: 32px;
     }
   }
 }
@@ -37,12 +34,21 @@
   margin-left: 20px;
   display: flex;
   align-self: center;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
+.date-suggestion-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+
+}
 
 .date-picker-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -52,15 +58,14 @@
   justify-self: center;
   margin: 10px;
 
+
   button {
     background: darkslategray;
   }
 }
 
 .date-expansion-panel {
-  width: 100%;
   background: darkslategray;
-
 }
 
 .card-row {
@@ -84,6 +89,8 @@
   flex-direction: column;
   align-self: stretch;
   justify-self: stretch;
+  flex-wrap: wrap;
+  width: 100%;
   //justify-content: space-between;
 
   .selected-date {
@@ -140,7 +147,7 @@
 
 .meet-name-input {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-self: center;
   justify-content: space-evenly;
   align-items: center;
@@ -155,6 +162,16 @@
   .meet-detail-component {
     font-size: 1.2rem;
   }
+
+  .date-suggestion-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+
+  }
+
+
 
   .meet-date-container {
     display: flex;

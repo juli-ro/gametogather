@@ -65,6 +65,7 @@ export class AuthService {
 	unsetSession() {
 		this.isAdminSignal.set(false);
 		this.isAuthenticatedSignal.set(false);
+		//Todo: clean break for now. Research other methods like a cleanup on logout
 		window.location.href = "/login";
 	}
 

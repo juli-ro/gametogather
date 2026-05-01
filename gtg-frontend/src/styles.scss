@@ -54,6 +54,10 @@ body {
   }
 }
 
+mat-card-header{
+  display: flex;
+  justify-content: center;
+}
 
 .container{
   max-width: 100%;

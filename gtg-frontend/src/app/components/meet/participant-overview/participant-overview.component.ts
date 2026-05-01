@@ -1,11 +1,12 @@
 import { Component, input, output } from "@angular/core";
 import { IMeetUser } from "../../../models/meetUser";
 import { MatCheckbox } from "@angular/material/checkbox";
+import { MatCard, MatCardContent, MatCardHeader } from "@angular/material/card";
 
 @Component({
 	selector: "app-participant-overview",
 	standalone: true,
-	imports: [MatCheckbox],
+	imports: [MatCheckbox, MatCard, MatCardContent, MatCardHeader],
 	templateUrl: "./participant-overview.component.html",
 	styleUrl: "./participant-overview.component.scss",
 })
