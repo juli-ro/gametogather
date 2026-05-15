@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using gtg_backend.Business;
 using gtg_backend.Data;
 using gtg_backend.Helpers;
+using gtg_backend.Repositories;
+using gtg_backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +69,11 @@ builder.Services.AddDbContext<GameDbContext>(options =>
 builder.Services.AddHostedService<NotificationWorker>();
 builder.Services.AddScoped<INotificationService, TelegramNotificationService>();
 
+//Repositories
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+
+//Services
+builder.Services.AddScoped<IGameService, GameService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
